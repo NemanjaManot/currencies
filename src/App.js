@@ -5,16 +5,14 @@ import {
     View,
     Text
 } from 'react-native';
+/* Components */
+import Login from './screens/Login/Login';
 
 const App = () => {
     return (
         <Fragment>
             <SafeAreaView>
-                <ScrollView
-                    contentInsetAdjustmentBehavior="automatic"
-                >
-                    <Text>Welcome!</Text>
-                </ScrollView>
+                <Login/>
             </SafeAreaView>
         </Fragment>
     );
