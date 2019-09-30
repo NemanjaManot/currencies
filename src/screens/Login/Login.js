@@ -6,10 +6,6 @@ import { styles } from './loginStyle';
 const { container } = styles;
 
 class Login extends PureComponent {
-    componentDidMount() {
-        
-    }
-
     render() {
         return (
             <View style={ container }>
