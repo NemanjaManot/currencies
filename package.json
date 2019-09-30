@@ -11,8 +11,10 @@
     "android": "react-native run-android"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.6.2",
     "axios": "^0.19.0",
     "prop-types": "^15.7.2",
+    "qs": "^6.9.0",
     "react": "16.8.6",
     "react-native": "0.60.0",
     "react-navigation": "^4.0.10",
