@@ -1,4 +1,4 @@
-import apiHelper from '../utils/apiHelper';
+import ApiHelper from '../utils/apiHelper';
 import qs from 'qs';
 /* Config */
 import { CLIENT_ID } from '../config';
@@ -11,7 +11,7 @@ class LoginService {
             username: email,
             password,
         };
-        return apiHelper.post('oauth/token/', qs.stringify(data), {
+        return ApiHelper.post('oauth/token/', qs.stringify(data), {
             headers: {
                 noAuth: true,
             },

@@ -47,19 +47,27 @@ axiosInstance.interceptors.request.use(
     err => Promise.reject(err),
 );
 
-const get = (resourceUrl, params = {}, resourceId, options = {}) => {
-    const id = resourceId ? `/${resourceId}` : '';
-    const url = `${BASE_URL}/${resourceUrl + id + createQueryString(params)}`;
+class ApiHelper {
+    static async get(resourceUrl, params = {}, resourceId, options = {}) {
+        const id = resourceId ? `/${resourceId}` : '';
+        const url = `${BASE_URL}/${resourceUrl + id + createQueryString(params)}`;
+        return axiosInstance.get(url, options);
+    };
 
-    return axiosInstance.get(url, options);
-};
+    static async post(resourceUrl, newResource, options = {}) {
+        const url = `${BASE_URL}/${resourceUrl}`;
+        return axiosInstance.post(url, newResource, options);
+    };
 
-const post = (resourceUrl, newResource, options = {}) => {
-    const url = `${BASE_URL}/${resourceUrl}`;
-    return axiosInstance.post(url, newResource, options);
-};
+    static async put(resourceUrl, newResource, options = {}) {
+        const url = `${BASE_URL}/${resourceUrl}`;
+        return axiosInstance.put(url, newResource, options);
+    };
 
-export default {
-    get,
-    post
-};
+    static async remove(resourceUrl, resourceId) {
+        const url = `${BASE_URL}/${resourceUrl}/${resourceId || ''}`;
+        return axiosInstance.delete(url);
+    };
+}
+
+export default ApiHelper;
