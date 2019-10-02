@@ -4,39 +4,48 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 import FooterTabIcon from '../components/FooterTabIcon/FooterTabIcon';
 /* Screens */
 import Favorites from '../screens/Favorites/Favorites';
+import InitialLoading from '../screens/InitialLoading/InitialLoading';
 /* Stack navigator screens */
 import { LoginScreen, FavoritesScreen, MarketScreen } from './screens';
-/* Colors */
-import { colors } from '../assets/colors';
-
-const { primaryColor, mainColor } = colors;
+/* Theme */
+import { theme } from '../assets/theme';
 
 const Navigator = createMaterialBottomTabNavigator(
     {
         Symbol: {
             screen: MarketScreen,
-            navigationOptions: () => ({
-                tabBarIcon: FooterTabIcon,
-                tabBarLabel: 'Market Search',
-                activeTintColor: primaryColor
-            }),
+            navigationOptions: ({ navigation }) => {
+                let tabBarVisible = true;
+                if (navigation.state.index > 0) {
+                    tabBarVisible = false;
+                }
+                return {
+                    tabBarIcon: FooterTabIcon,
+                    tabBarLabel: 'Market Search',
+                    activeTintColor: theme.colors.primary,
+                    tabBarVisible
+                }
+            },
         },
         Watchlist: {
             screen: FavoritesScreen,
             navigationOptions: () => ({
                 tabBarIcon: FooterTabIcon,
                 tabBarLabel: 'Favorites',
-                activeTintColor: primaryColor
+                activeTintColor: theme.colors.primary
             }),
         },
     },
     {
-        barStyle: { backgroundColor: mainColor },
+        activeColor: theme.colors.primary,
+        barStyle: { backgroundColor: theme.colors.background },
+        shifting: true
     },
 );
 
 const Router = createAppContainer(
     createSwitchNavigator({
+        Initial: InitialLoading,
         Login: LoginScreen,
         App: Navigator,
     }),

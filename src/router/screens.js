@@ -4,10 +4,8 @@ import Login from '../screens/Login/Login';
 import Market from '../screens/Market/Market';
 import SingleCurrency from '../screens/SingleCurrency/SingleCurrency';
 import Favorites from '../screens/Favorites/Favorites';
-/* Colors */
-import { colors } from '../assets/colors';
-
-const { primaryColor, mainColor } = colors;
+/* Theme */
+import { theme } from '../assets/theme';
 
 export const LoginScreen = createStackNavigator(
     { Login: Login },
@@ -20,18 +18,18 @@ export const MarketScreen = createStackNavigator({
         navigationOptions: () => ({
             title: 'Market Search',
             headerStyle: {
-                backgroundColor: primaryColor,
+                backgroundColor: theme.colors.primary,
             },
-            headerTintColor: mainColor
+            headerTintColor: theme.colors.background
         }),
     },
     SingleSymbol: {
         screen: SingleCurrency,
         navigationOptions: () => ({
             headerStyle: {
-                backgroundColor: primaryColor,
+                backgroundColor: theme.colors.primary,
             },
-            headerTintColor: mainColor
+            headerTintColor: theme.colors.background
         }),
     },
 });
@@ -42,9 +40,9 @@ export const FavoritesScreen = createStackNavigator({
         navigationOptions: () => ({
             title: 'Favorites',
             headerStyle: {
-                backgroundColor: primaryColor,
+                backgroundColor: theme.colors.primary,
             },
-            headerTintColor: mainColor
+            headerTintColor: theme.colors.background
         }),
     },
 });

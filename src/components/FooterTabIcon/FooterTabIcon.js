@@ -3,7 +3,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const FooterTabIcon = <MaterialIcons
     style={ { backgroundColor: 'transparent' } }
-    name={ 'done' }
+    name={ 'favorite' }
     color={ '#ee383b' }
     size={ 24 }
 />;

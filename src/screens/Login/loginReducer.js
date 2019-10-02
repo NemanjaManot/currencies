@@ -2,12 +2,12 @@
 import { LOGIN } from './loginActionTypes';
 
 const INITIAL_STATE = {
-    testState: 'test state 1'
+    testState: ''
 };
 
 export default function loginReducer(state = INITIAL_STATE, action) {
     switch (action.type) {
-        case LOGIN.TRY_LOGIN: {
+        case LOGIN.SET: {
             return {
                 ...state,
                 testState: action.testState

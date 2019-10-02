@@ -1,9 +1,27 @@
-import { takeEvery, put } from 'redux-saga/effects';
+import { takeEvery, put, all } from 'redux-saga/effects';
 /* Action types */
 import { LOGIN } from './loginActionTypes';
+import { USER } from '../../shared/user/userActionTypes';
+/* Services */
+import NavigationService from '../../services/navigationService';
+import LoginService from '../../services/loginService';
+import AsyncStorageService from '../../services/asyncStorageService';
 
 export function* tryUserLogin(action) {
-    console.log(action);
+    const params = {
+        email: action.loginParams.email,
+        password: action.loginParams.password
+    };
+    let response;
+    response = yield LoginService.loginUser(params.email, params.password);
+
+    if (response.response) {
+        yield AsyncStorageService.setAccessToken(response.response.data.accessToken);
+        yield put({ type: USER.GET_INFO });
+        NavigationService.navigate('App');
+    } else {
+        console.log(response)
+    }
 }
 
 export default function* loginSaga() {

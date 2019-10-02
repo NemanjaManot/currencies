@@ -1,6 +1,6 @@
 import { LOGIN } from './loginActionTypes';
 
-export const tryLoginAction = testState => ({
+export const tryLoginAction = loginParams => ({
     type: LOGIN.TRY_LOGIN,
-    testState
+    loginParams
 });
