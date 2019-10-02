@@ -1,10 +1,11 @@
 import { takeEvery, put, all } from 'redux-saga/effects';
-import { NavigationActions } from 'react-navigation';
 /* Action types */
 import { LOGIN } from './loginActionTypes';
+import { USER } from '../../shared/user/userActionTypes';
 /* Services */
 import NavigationService from '../../services/navigationService';
 import LoginService from '../../services/loginService';
+import AsyncStorageService from '../../services/asyncStorageService';
 
 export function* tryUserLogin(action) {
     const params = {
@@ -13,7 +14,10 @@ export function* tryUserLogin(action) {
     };
     let response;
     response = yield LoginService.loginUser(params.email, params.password);
+
     if (response.response) {
+        yield AsyncStorageService.setAccessToken(response.response.data.accessToken);
+        yield put({ type: USER.GET_INFO });
         NavigationService.navigate('App');
     } else {
         console.log(response)
