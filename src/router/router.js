@@ -30,7 +30,9 @@ const Navigator = createMaterialBottomTabNavigator(
         },
     },
     {
-        barStyle: { backgroundColor: theme.colors.background }
+        activeColor: theme.colors.primary,
+        barStyle: { backgroundColor: theme.colors.background },
+        shifting: true
     },
 );
 
