@@ -3,16 +3,20 @@ import { SafeAreaView } from 'react-native';
 import { Provider } from 'react-redux';
 /* Store */
 import store from './store';
-/* Components */
-import Login from './screens/Login/Login';
+/* Styles */
+import { globalStyles } from './assets/globalStyle';
+/* Router */
+import Router from './router/router';
+
+const { globalContainer } = globalStyles;
 
 class App extends Component {
     render() {
         return (
             <Provider store={ store }>
                 <Fragment>
-                    <SafeAreaView>
-                        <Login/>
+                    <SafeAreaView style={ globalContainer }>
+                        <Router/>
                     </SafeAreaView>
                 </Fragment>
             </Provider>
