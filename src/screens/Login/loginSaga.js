@@ -3,13 +3,21 @@ import { NavigationActions } from 'react-navigation';
 /* Action types */
 import { LOGIN } from './loginActionTypes';
 /* Services */
+import NavigationService from '../../services/navigationService';
 import LoginService from '../../services/loginService';
 
 export function* tryUserLogin(action) {
-    console.log(action);
-    yield put(NavigationActions.navigate({
-        routeName: 'App'
-    }));
+    const params = {
+        email: action.loginParams.email,
+        password: action.loginParams.password
+    };
+    let response;
+    response = yield LoginService.loginUser(params.email, params.password);
+    if (response.response) {
+        NavigationService.navigate('App');
+    } else {
+        console.log(response)
+    }
 }
 
 export default function* loginSaga() {

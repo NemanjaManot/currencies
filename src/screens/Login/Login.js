@@ -43,7 +43,6 @@ class Login extends PureComponent {
                 password: this.state.password
             };
             this.props.tryLogin(loginParams);
-            //this.props.navigation.navigate('App');
         }
     };
 

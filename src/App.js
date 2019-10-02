@@ -3,10 +3,12 @@ import { SafeAreaView } from 'react-native';
 import { Provider } from 'react-redux';
 /* Store */
 import store from './store';
-/* Styles */
-import { globalStyles } from './assets/globalStyle';
 /* Router */
 import Router from './router/router';
+/* Services */
+import NavigationService from './services/navigationService';
+/* Styles */
+import { globalStyles } from './assets/globalStyle';
 
 const { globalContainer } = globalStyles;
 
@@ -16,7 +18,11 @@ class App extends Component {
             <Provider store={ store }>
                 <Fragment>
                     <SafeAreaView style={ globalContainer }>
-                        <Router/>
+                        <Router
+                            ref={ navigatorRef => {
+                                NavigationService.setTopLevelNavigator(navigatorRef);
+                            } }
+                        />
                     </SafeAreaView>
                 </Fragment>
             </Provider>
