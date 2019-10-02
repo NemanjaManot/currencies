@@ -31,17 +31,20 @@ class Login extends PureComponent {
         },
     };
 
-    componentDidMount() {
-        this.props.tryLogin('new new test');
-    }
-
     onChangeEmail = email => this.setState({ email });
 
     onChangePassword = password => this.setState({ password });
 
     onSubmit = () => {
-        this.props.tryLogin(this.state.email, this.state.password);
-        //this.props.navigation.navigate('Symbols');
+        const isFormValid = this.isFormValid();
+        if (isFormValid) {
+            const loginParams = {
+                email: this.state.email,
+                password: this.state.password
+            };
+            this.props.tryLogin(loginParams);
+            //this.props.navigation.navigate('App');
+        }
     };
 
     handleBlur = field => () => {
@@ -50,10 +53,19 @@ class Login extends PureComponent {
         }));
     };
 
-    isEmailValid = email => this.state.touched.email
+    showEmailValidationMsg = email => this.state.touched.email
         && (!NO_SPACE_REGEX.test(email) || !EMAIL_VALIDATION_REGEX.test(email));
 
-    isPasswordValid = password => this.state.touched.password && !password.length > 0;
+    showPasswordValidationMsg = password => this.state.touched.password && !password.length > 0;
+
+    isFormValid = () => {
+        const { password, email } = this.state;
+
+        const emailValidation = this.showEmailValidationMsg(email);
+        const passwordValidation = this.showPasswordValidationMsg(password);
+
+        return (!emailValidation && email.length && !passwordValidation && password.length);
+    };
 
     render() {
         const { email, password } = this.state;
@@ -76,7 +88,7 @@ class Login extends PureComponent {
                             />
                             <HelperText
                                 type="error"
-                                visible={ this.isEmailValid(email) }
+                                visible={ this.showEmailValidationMsg(email) }
                             >
                                 E-Mail is invalid
                             </HelperText>
@@ -93,7 +105,7 @@ class Login extends PureComponent {
                             />
                             <HelperText
                                 type="error"
-                                visible={ this.isPasswordValid(password) }
+                                visible={ this.showPasswordValidationMsg(password) }
                             >
                                 Password is required
                             </HelperText>
@@ -112,8 +124,8 @@ class Login extends PureComponent {
                             color={ primaryColor }
                             mode="contained"
                             onPress={ this.onSubmit }
-                            //loading={ isLoading }
-                            //disabled={ isLoading}
+                            //loading={ this.state.isLoading }
+                            //disabled={ this.getButtonState() }
                         >
                             Sign In
                         </Button>
@@ -132,7 +144,7 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        tryLogin: testState => dispatch(tryLoginAction(testState))
+        tryLogin: loginParams => dispatch(tryLoginAction(loginParams))
     };
 };
 
