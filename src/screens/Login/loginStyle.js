@@ -1,10 +1,8 @@
 import { StyleSheet } from 'react-native';
-/*Colors*/
-import { colors } from '../../assets/colors';
+/* Theme */
+import { theme } from '../../assets/theme';
 /* Font */
 import { fontSizeXXL } from '../../assets/font';
-
-const { secundaryColor } = colors;
 
 export const styles = StyleSheet.create({
     container: {
@@ -19,7 +17,7 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         marginBottom: 60,
-        color: secundaryColor
+        color: theme.colors.accent
     },
     inputStyle: {
         marginBottom: 15

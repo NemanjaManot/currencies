@@ -10,10 +10,7 @@ import { tryLoginAction } from './loginActions';
 import { NO_SPACE_REGEX, EMAIL_VALIDATION_REGEX } from '../../utils/regex';
 /* Styles */
 import { styles } from './loginStyle';
-/* Colors*/
-import { colors } from '../../assets/colors';
 
-const { primaryColor } = colors;
 const { container, headerTitle, inputStyle, loginButton, textInputStyle, loginErrorStyle } = styles;
 const resetScrollToCoords = { x: 0, y: 0 };
 
@@ -120,11 +117,9 @@ class Login extends PureComponent {
                             </HelperText>*/ }
                         <Button
                             contentStyle={ loginButton }
-                            color={ primaryColor }
                             mode="contained"
                             onPress={ this.onSubmit }
                             //loading={ this.state.isLoading }
-                            //disabled={ this.getButtonState() }
                         >
                             Sign In
                         </Button>

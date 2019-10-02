@@ -6,10 +6,8 @@ import FooterTabIcon from '../components/FooterTabIcon/FooterTabIcon';
 import Favorites from '../screens/Favorites/Favorites';
 /* Stack navigator screens */
 import { LoginScreen, FavoritesScreen, MarketScreen } from './screens';
-/* Colors */
-import { colors } from '../assets/colors';
-
-const { primaryColor, mainColor } = colors;
+/* Theme */
+import { theme } from '../assets/theme';
 
 const Navigator = createMaterialBottomTabNavigator(
     {
@@ -18,7 +16,7 @@ const Navigator = createMaterialBottomTabNavigator(
             navigationOptions: () => ({
                 tabBarIcon: FooterTabIcon,
                 tabBarLabel: 'Market Search',
-                activeTintColor: primaryColor
+                activeTintColor: theme.colors.primary
             }),
         },
         Watchlist: {
@@ -26,12 +24,12 @@ const Navigator = createMaterialBottomTabNavigator(
             navigationOptions: () => ({
                 tabBarIcon: FooterTabIcon,
                 tabBarLabel: 'Favorites',
-                activeTintColor: primaryColor
+                activeTintColor: theme.colors.primary
             }),
         },
     },
     {
-        barStyle: { backgroundColor: mainColor },
+        barStyle: { backgroundColor: theme.colors.background }
     },
 );
 
