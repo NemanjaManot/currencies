@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 /* Actions */
 import { tryLoginAction } from './loginActions';
 /* Styles */
 import { styles } from './loginStyle';
+import { TOUCHABLE_AREA } from '../../assets/globalStyle';
 
 const { container } = styles;
 
@@ -18,10 +19,19 @@ class Login extends PureComponent {
         this.props.tryLogin('new new test');
     }
 
+    onLoginBtnPress = () => {
+        this.props.navigation.navigate('Symbols')
+    };
+
     render() {
         return (
             <View style={ container }>
-                <Text>Login screen</Text>
+                <TouchableOpacity
+                    hitSlop={ TOUCHABLE_AREA }
+                    onPress={ this.onLoginBtnPress }
+                >
+                    <Text>Login screen</Text>
+                </TouchableOpacity>
             </View>
         )
     }
