@@ -4,6 +4,7 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 import FooterTabIcon from '../components/FooterTabIcon/FooterTabIcon';
 /* Screens */
 import Favorites from '../screens/Favorites/Favorites';
+import InitialLoading from '../screens/InitialLoading/InitialLoading';
 /* Stack navigator screens */
 import { LoginScreen, FavoritesScreen, MarketScreen } from './screens';
 /* Theme */
@@ -35,6 +36,7 @@ const Navigator = createMaterialBottomTabNavigator(
 
 const Router = createAppContainer(
     createSwitchNavigator({
+        Initial: InitialLoading,
         Login: LoginScreen,
         App: Navigator,
     }),
