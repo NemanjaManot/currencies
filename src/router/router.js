@@ -14,11 +14,18 @@ const Navigator = createMaterialBottomTabNavigator(
     {
         Symbol: {
             screen: MarketScreen,
-            navigationOptions: () => ({
-                tabBarIcon: FooterTabIcon,
-                tabBarLabel: 'Market Search',
-                activeTintColor: theme.colors.primary
-            }),
+            navigationOptions: ({ navigation }) => {
+                let tabBarVisible = true;
+                if (navigation.state.index > 0) {
+                    tabBarVisible = false;
+                }
+                return {
+                    tabBarIcon: FooterTabIcon,
+                    tabBarLabel: 'Market Search',
+                    activeTintColor: theme.colors.primary,
+                    tabBarVisible
+                }
+            },
         },
         Watchlist: {
             screen: FavoritesScreen,
