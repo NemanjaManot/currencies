@@ -20,7 +20,10 @@ export function* tryUserLogin(action) {
         yield put({ type: USER.GET_INFO });
         NavigationService.navigate('App');
     } else {
-        console.log(response)
+        yield put({
+            type: LOGIN.SET_ERROR_MESSAGE,
+            errorMessage: response.error.response.data.message
+        });
     }
 }
 

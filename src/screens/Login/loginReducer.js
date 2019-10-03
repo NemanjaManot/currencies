@@ -2,15 +2,15 @@
 import { LOGIN } from './loginActionTypes';
 
 const INITIAL_STATE = {
-    testState: ''
+    errorMessage: null
 };
 
 export default function loginReducer(state = INITIAL_STATE, action) {
     switch (action.type) {
-        case LOGIN.SET: {
+        case LOGIN.SET_ERROR_MESSAGE: {
             return {
                 ...state,
-                testState: action.testState
+                errorMessage: action.errorMessage
             }
         }
         default:
