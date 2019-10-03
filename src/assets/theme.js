@@ -4,7 +4,7 @@ const turquoise = '#088B7E';
 const white = '#ffffff';
 const red = '#FF0C16';
 const gray = '#666666';
-const pink = 'E22770';
+const pink = '#E6327A';
 const black = '#000000';
 
 export const theme = {
@@ -17,4 +17,8 @@ export const theme = {
         background: white,
         text: black
     }
+};
+
+export const otherColors = {
+    secundaryColor: pink
 };

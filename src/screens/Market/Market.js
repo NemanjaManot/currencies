@@ -3,14 +3,18 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+/* Components */
+import SymbolItem from '../../components/SymbolItem.js/SymbolItem';
 /* Actions */
 import { getUserDataAction } from '../../shared/user/userActions';
 /* Styles */
 import { styles } from './marketStyle';
 import { globalStyles } from '../../assets/globalStyle';
+/* Themes and colors */
+import { otherColors, theme } from '../../assets/theme';
 
 const { TOUCHABLE_AREA } = globalStyles;
-const { container } = styles;
+const { container, marketListWrapper } = styles;
 
 class Market extends PureComponent {
     static propTypes = {
@@ -30,6 +34,16 @@ class Market extends PureComponent {
         this.props.navigation.navigate('SingleSymbol')
     };
 
+    renderSymbolItem = () => {
+        return (
+            <SymbolItem
+                name='Bitcoin'
+                value='3,745.00'
+                iconColor={ otherColors.secundaryColor }
+            />
+        )
+    };
+
     render() {
         return (
             <View style={ container }>
@@ -41,14 +55,19 @@ class Market extends PureComponent {
                     value={ this.state.query }
                 />
 
+                <View style={ marketListWrapper }>
+                    { this.renderSymbolItem() }
+                </View>
 
-                <Text>Market screen</Text>
-                <TouchableOpacity
-                    hitSlop={ TOUCHABLE_AREA }
-                    onPress={ this.onBtnPress }
-                >
-                    <Text>Go to single symbol screen</Text>
-                </TouchableOpacity>
+                <View style={ { marginTop: 100 } }>
+                    <Text>Market screen</Text>
+                    <TouchableOpacity
+                        hitSlop={ TOUCHABLE_AREA }
+                        onPress={ this.onBtnPress }
+                    >
+                        <Text>Go to single symbol screen</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         )
     }
