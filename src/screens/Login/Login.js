@@ -64,6 +64,8 @@ class Login extends PureComponent {
         return (!emailValidation && email.length && !passwordValidation && password.length);
     };
 
+    isButtonDisabled = () => !(this.state.password.length > 0 || this.state.email.length > 0);
+
     validationMessage = type => {
         let message;
         switch (type) {
@@ -144,6 +146,7 @@ class Login extends PureComponent {
                             contentStyle={ loginButton }
                             mode="contained"
                             onPress={ this.onSubmit }
+                            disabled={ this.isButtonDisabled() }
                             //loading={ this.state.isLoading }
                         >
                             Sign In
