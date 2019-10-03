@@ -2,7 +2,8 @@ import { USER } from './userActionTypes';
 
 const initialState = {
     user: null,
-    userId: null
+    userId: null,
+    userAccount: null
 };
 
 export default function userReducer(state = initialState, action) {
@@ -12,6 +13,11 @@ export default function userReducer(state = initialState, action) {
                 ...state,
                 user: action ? action.user : null,
                 userId: action ? action.userId : null
+            };
+        case USER.SET_USER_ACCOUNTS:
+            return {
+                ...state,
+                userAccount: action.userAccount
             };
         default:
             return state;
