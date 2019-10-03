@@ -4,9 +4,9 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 10,
-        paddingTop: 15
+        marginTop: 15
     },
     marketListWrapper: {
-        marginTop: 15
+        paddingTop: 15
     }
 });

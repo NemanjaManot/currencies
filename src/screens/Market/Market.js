@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { Searchbar } from 'react-native-paper';
+import { ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import { Searchbar, Colors } from 'react-native-paper';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 /* Components */
@@ -34,19 +34,21 @@ class Market extends PureComponent {
         this.props.navigation.navigate('SingleSymbol')
     };
 
-    renderSymbolItem = () => {
-        return (
-            <SymbolItem
-                name='Bitcoin'
-                value='3,745.00'
-                iconColor={ otherColors.secundaryColor }
-            />
-        )
+    renderSymbolItem = (symbols) => {
+        return symbols.map(symbol => {
+            return (
+                <SymbolItem
+                    name={ symbol.displayName }
+                    value={ symbol.price.ask }
+                    iconColor={ symbol.isOpen ? otherColors.secundaryColor : Colors.grey400 }
+                />
+            )
+        });
     };
 
     render() {
         return (
-            <View style={ container }>
+            <ScrollView style={ container }>
                 <Searchbar
                     placeholder="Search here"
                     autoCapitalize="none"
@@ -56,10 +58,10 @@ class Market extends PureComponent {
                 />
 
                 <View style={ marketListWrapper }>
-                    { this.renderSymbolItem() }
+                    { this.props.symbols && this.renderSymbolItem(this.props.symbols) }
                 </View>
 
-                <View style={ { marginTop: 100 } }>
+                <View style={ { marginTop: 30 } }>
                     <Text>Market screen</Text>
                     <TouchableOpacity
                         hitSlop={ TOUCHABLE_AREA }
@@ -68,7 +70,7 @@ class Market extends PureComponent {
                         <Text>Go to single symbol screen</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </ScrollView>
         )
     }
 }
