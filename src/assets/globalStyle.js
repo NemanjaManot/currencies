@@ -7,7 +7,8 @@ export const globalStyles = StyleSheet.create({
     },
     flexOne: {
         flex: 1
-    }
+    },
+    backgroundTransparent: { backgroundColor: 'transparent' },
 });
 
 export const TOUCHABLE_AREA = {

@@ -20,7 +20,7 @@ const Navigator = createMaterialBottomTabNavigator(
                     tabBarVisible = false;
                 }
                 return {
-                    tabBarIcon: FooterTabIcon,
+                    tabBarIcon: (props) => FooterTabIcon('list', props.tintColor),
                     tabBarLabel: 'Market Search',
                     activeTintColor: theme.colors.primary,
                     tabBarVisible
@@ -30,7 +30,7 @@ const Navigator = createMaterialBottomTabNavigator(
         Watchlist: {
             screen: FavoritesScreen,
             navigationOptions: () => ({
-                tabBarIcon: FooterTabIcon,
+                tabBarIcon: (props) => FooterTabIcon('favorite', props.tintColor),
                 tabBarLabel: 'Favorites',
                 activeTintColor: theme.colors.primary
             }),
