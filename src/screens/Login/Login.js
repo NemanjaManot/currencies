@@ -16,7 +16,8 @@ const resetScrollToCoords = { x: 0, y: 0 };
 
 class Login extends PureComponent {
     static propTypes = {
-        tryLogin: PropTypes.func
+        tryLogin: PropTypes.func,
+        errorMessage: PropTypes.string
     };
 
     state = {
@@ -63,6 +64,30 @@ class Login extends PureComponent {
         return (!emailValidation && email.length && !passwordValidation && password.length);
     };
 
+    validationMessage = type => {
+        let message;
+        switch (type) {
+            case 'email':
+                if (this.state.email.length === 0) {
+                    message = 'Email is required';
+                } else {
+                    message = 'Email is invalid';
+                }
+                break;
+            case 'password':
+                if (this.state.password.length === 0) {
+                    message = 'Password is required';
+                }
+                break;
+            case 'loginError':
+                message = this.props.errorMessage;
+                break;
+            default:
+                return message;
+        }
+        return message;
+    };
+
     render() {
         const { email, password } = this.state;
 
@@ -86,7 +111,7 @@ class Login extends PureComponent {
                                 type="error"
                                 visible={ this.showEmailValidationMsg(email) }
                             >
-                                E-Mail is invalid
+                                { this.validationMessage('email') }
                             </HelperText>
                         </View>
                         <View style={ inputStyle }>
@@ -103,23 +128,22 @@ class Login extends PureComponent {
                                 type="error"
                                 visible={ this.showPasswordValidationMsg(password) }
                             >
-                                Password is required
+                                { this.validationMessage('password') }
                             </HelperText>
                         </View>
                     </View>
                     <View>
-                        { /*<HelperText
-                                type="error"
-                                visible={ false }
-                                style={ loginErrorStyle }
-                            >
-                                { 'loginError' }
-                            </HelperText>*/ }
+                        <HelperText
+                            type="error"
+                            visible={ this.props.errorMessage }
+                            style={ loginErrorStyle }
+                        >
+                            { this.validationMessage('loginError') }
+                        </HelperText>
                         <Button
                             contentStyle={ loginButton }
                             mode="contained"
                             onPress={ this.onSubmit }
-                            //loading={ this.state.isLoading }
                         >
                             Sign In
                         </Button>
@@ -132,7 +156,7 @@ class Login extends PureComponent {
 
 const mapStateToProps = (store) => {
     return {
-        testState: store.loginReducer.testState
+        errorMessage: store.loginReducer.errorMessage
     };
 };
 

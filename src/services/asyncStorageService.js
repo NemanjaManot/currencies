@@ -5,6 +5,14 @@ const tokens = {
 };
 
 class AsyncStorageService {
+    async clearTokens() {
+        await Promise.all(
+            Object.keys(tokens).map(async (key) => {
+                await AsyncStorage.removeItem(tokens[key]);
+            })
+        );
+    }
+
     async getItem(item) {
         try {
             const value = await AsyncStorage.getItem(item);
