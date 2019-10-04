@@ -7,7 +7,7 @@ export const getFullSymbolsList = createSelector(
         if (symbols && watchList) {
             return symbols.map(el => {
                 if (watchList.find(el2 => el.id === el2.id)) {
-                    el.isFavorited = true;
+                    el.isFavorite = true;
                 }
                 return el;
             });

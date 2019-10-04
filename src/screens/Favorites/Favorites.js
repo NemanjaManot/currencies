@@ -15,7 +15,7 @@ class Favorites extends PureComponent {
     renderItem = ({ item }) => <SymbolItem
         name={ item.displayName }
         value={ item.price.ask }
-        isFavorited
+        isFavorite
     />;
 
     render() {

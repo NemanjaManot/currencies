@@ -39,7 +39,7 @@ class Market extends PureComponent {
     renderItem = ({ item }) => <SymbolItem
         name={ item.displayName }
         value={ item.price.ask }
-        isFavorited={ item.isFavorited }
+        isFavorite={ item.isFavorite }
     />;
 
     render() {

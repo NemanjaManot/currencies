@@ -15,17 +15,17 @@ class SymbolItem extends PureComponent {
     static propTypes = {
         name: PropTypes.string,
         value: PropTypes.string,
-        isFavorited: PropTypes.bool
+        isFavorite: PropTypes.bool
     };
 
     render() {
-        const { name, isFavorited, value } = this.props;
+        const { name, isFavorite, value } = this.props;
         return (
             <View style={ container }>
                 <Text style={ labelStyle }>{ name }</Text>
                 <View style={ rightBoxStyle }>
                     <Text style={ valueStyle }>$ { value }</Text>
-                    { FooterTabIcon('favorite', isFavorited ? otherColors.secundaryColor : Colors.grey400) }
+                    { FooterTabIcon('favorite', isFavorite ? otherColors.secundaryColor : Colors.grey400) }
                 </View>
             </View>
         )
