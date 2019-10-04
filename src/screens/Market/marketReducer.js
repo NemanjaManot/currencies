@@ -4,7 +4,8 @@ const initialState = {
     symbols: null,
     watchList: null,
     singleSymbol: null,
-    chartData: null
+    chartData: null,
+    news: null
 };
 
 export default function marketReducer(state = initialState, action) {
@@ -28,6 +29,11 @@ export default function marketReducer(state = initialState, action) {
             return {
                 ...state,
                 chartData: action.chartData
+            };
+        case MARKET.SET_NEWS:
+            return {
+                ...state,
+                news: action.news
             };
         default:
             return state;
