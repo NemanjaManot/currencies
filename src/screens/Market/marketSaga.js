@@ -5,23 +5,23 @@ import { MARKET } from './marketActionTypes';
 import MarketService from '../../services/marketService';
 
 export function* getSymbols(action) {
-    const symbols = yield MarketService.getSymbols(action.userId);
+    const response = yield MarketService.getSymbols(action.userId);
 
-    if (symbols.response.data) {
+    if (response.data) {
         yield put({
             type: MARKET.SET_MARKET_SYMBOLS,
-            symbols: symbols.response.data
+            symbols: response.data
         })
     }
 }
 
 export function* getWatchlist(action) {
-    const watchlist = yield MarketService.getWatchlist(action.userAccountId);
+    const response = yield MarketService.getWatchlist(action.userAccountId);
 
-    if (watchlist.response.data) {
+    if (response.data) {
         yield put({
             type: MARKET.SET_WATCHLIST,
-            watchlist: watchlist.response.data
+            watchlist: response.data
         })
     }
 }
