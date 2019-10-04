@@ -21,7 +21,7 @@ export function* getWatchlist(action) {
     if (response.data) {
         yield put({
             type: MARKET.SET_WATCHLIST,
-            watchlist: response.data
+            watchList: response.data
         })
     }
 }

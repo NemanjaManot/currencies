@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import SymbolItem from '../../components/SymbolItem.js/SymbolItem';
 /* Actions */
 import { getUserDataAction } from '../../shared/user/userActions';
+/* Selectors */
+import { getFullSymbolsList } from './marketSelectors';
 /* Styles */
 import { styles } from './marketStyle';
 import { globalStyles } from '../../assets/globalStyle';
@@ -40,7 +42,7 @@ class Market extends PureComponent {
                 <SymbolItem
                     name={ symbol.displayName }
                     value={ symbol.price.ask }
-                    iconColor={ symbol.isOpen ? otherColors.secundaryColor : Colors.grey400 }
+                    iconColor={ symbol.isFavorited ? otherColors.secundaryColor : Colors.grey400 }
                 />
             )
         });
@@ -77,7 +79,7 @@ class Market extends PureComponent {
 
 const mapStateToProps = (store) => {
     return {
-        symbols: store.marketReducer.symbols
+        symbols: getFullSymbolsList(store)
     };
 };
 
