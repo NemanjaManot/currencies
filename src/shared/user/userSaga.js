@@ -8,27 +8,37 @@ import { USER } from './userActionTypes';
 import { MARKET } from '../../screens/Market/marketActionTypes';
 
 export function* getUserInfo() {
-    const user = yield UserService.getLoggedUserInfo();
-    if (user.response) {
+    const userResponse = yield UserService.getLoggedUserInfo();
+    if (userResponse) {
         yield put({
             type: USER.SET_INFO,
-            user: user.response.data,
-            userId: user.response.data.userInfo.userId
+            user: userResponse.data,
+            userId: userResponse.data.userInfo.userId
         });
 
         // call market symbols
         yield put({
             type: MARKET.GET_MARKET_SYMBOLS,
-            userId: user.response.data.userInfo.userId
+            userId: userResponse.data.userInfo.userId
         });
 
         // call user accounts
-        const userAccounts = yield UserService.getUserAccounts(user.response.data.userInfo.userId);
-        if (userAccounts.response) {
+        const userAccounts = yield UserService.getUserAccounts(userResponse.data.userInfo.userId);
+        if (userAccounts) {
+            const userAccount = userAccounts.data[0];
             yield put({
                 type: USER.SET_USER_ACCOUNTS,
-                userAccount: userAccounts.response.data[0]
+                userAccount
             });
+
+            // call watchlist
+            if (userAccount && userAccount.id) {
+                yield put({
+                    type: MARKET.GET_WATCHLIST,
+                    userAccountId: userAccount.id
+                });
+            }
+
         }
     } else {
         yield AsyncStorageService.clearTokens();

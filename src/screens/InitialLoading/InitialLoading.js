@@ -4,12 +4,12 @@ import AsyncStorageService from "../../services/asyncStorageService";
 
 class InitialLoading extends PureComponent {
     componentDidMount() {
-        this.testFunc();
+        this.navigateToAppropriateScreen();
     };
 
-    testFunc = async () => {
-        let tt = await AsyncStorageService.getAccessToken();
-        if (tt) {
+    navigateToAppropriateScreen = async () => {
+        const accessToken = await AsyncStorageService.getAccessToken();
+        if (accessToken) {
             this.props.navigation.navigate('App');
         } else {
             this.props.navigation.navigate('Login');

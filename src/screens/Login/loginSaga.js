@@ -12,8 +12,7 @@ export function* tryUserLogin(action) {
         email: action.loginParams.email,
         password: action.loginParams.password
     };
-    let response;
-    response = yield LoginService.loginUser(params.email, params.password);
+    const response = yield LoginService.loginUser(params.email, params.password);
 
     if (response.response) {
         yield AsyncStorageService.setAccessToken(response.response.data.accessToken);
