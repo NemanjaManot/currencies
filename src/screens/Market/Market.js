@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -34,21 +34,17 @@ class Market extends PureComponent {
         this.props.navigation.navigate('SingleSymbol')
     };
 
-    renderSymbolItem = (symbols) => {
-        return symbols.map(symbol => {
-            return (
-                <SymbolItem
-                    name={ symbol.displayName }
-                    value={ symbol.price.ask }
-                    isFavorited={ symbol.isFavorited }
-                />
-            )
-        });
-    };
+    keyExtractor = (item, index) => index.toString();
+
+    renderItem = ({ item }) => <SymbolItem
+        name={ item.displayName }
+        value={ item.price.ask }
+        isFavorited={ item.isFavorited }
+    />;
 
     render() {
         return (
-            <ScrollView style={ container }>
+            <View style={ container }>
                 <Searchbar
                     placeholder="Search here"
                     autoCapitalize="none"
@@ -58,9 +54,15 @@ class Market extends PureComponent {
                 />
 
                 <View style={ marketListWrapper }>
-                    { this.props.symbols && this.renderSymbolItem(this.props.symbols) }
+                    { this.props.symbols &&
+                    <FlatList
+                        data={ this.props.symbols }
+                        renderItem={ this.renderItem }
+                        keyExtractor={ this.keyExtractor }
+                    />
+                    }
                 </View>
-
+                { /*
                 <View style={ { marginTop: 30 } }>
                     <Text>Market screen</Text>
                     <TouchableOpacity
@@ -69,8 +71,8 @@ class Market extends PureComponent {
                     >
                         <Text>Go to single symbol screen</Text>
                     </TouchableOpacity>
-                </View>
-            </ScrollView>
+                </View>*/ }
+            </View>
         )
     }
 }

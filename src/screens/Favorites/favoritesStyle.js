@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
         marginTop: 15
     },
     favoritesListWrapper: {
-        paddingTop: 15
+        paddingTop: 15,
+        flex: 1
     }
 });

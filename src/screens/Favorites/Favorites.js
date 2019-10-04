@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 /* Components */
 import SymbolItem from '../../components/SymbolItem/SymbolItem';
@@ -10,23 +10,25 @@ const { container, favoritesListWrapper } = styles;
 
 class Favorites extends PureComponent {
 
-    renderSymbolItem = (watchList) => {
-        return watchList.map(symbol => {
-            return (
-                <SymbolItem
-                    name={ symbol.displayName }
-                    value={ symbol.price.ask }
-                    isFavorited
-                />
-            )
-        });
-    };
+    keyExtractor = (item, index) => index.toString();
+
+    renderItem = ({ item }) => <SymbolItem
+        name={ item.displayName }
+        value={ item.price.ask }
+        isFavorited
+    />;
 
     render() {
         return (
             <View style={ container }>
                 <View style={ favoritesListWrapper }>
-                    { this.props.watchList && this.renderSymbolItem(this.props.watchList) }
+                    { this.props.watchList &&
+                    <FlatList
+                        data={ this.props.watchList }
+                        renderItem={ this.renderItem }
+                        keyExtractor={ this.keyExtractor }
+                    />
+                    }
                 </View>
             </View>
         )
