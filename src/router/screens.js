@@ -26,6 +26,7 @@ export const MarketScreen = createStackNavigator({
     SingleSymbol: {
         screen: SingleCurrency,
         navigationOptions: () => ({
+            title: 'Single Currency',
             headerStyle: {
                 backgroundColor: theme.colors.primary,
             },
