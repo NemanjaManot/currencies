@@ -7,9 +7,13 @@ import { styles } from './singleCurrencyStyle';
 const { container } = styles;
 
 class SingleCurrency extends PureComponent {
+    static navigationOptions = ({ navigation }) => ({
+        title: navigation.getParam('params')
+    });
+
     render() {
-        console.log(this.props.chartData);
-        console.log(this.props.singleSymbol);
+        // console.log(this.props.chartData);
+        // console.log(this.props.singleSymbol);
         return (
             <View style={ container }>
                 <Text>Single Currency screen</Text>

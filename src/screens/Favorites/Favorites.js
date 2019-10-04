@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import { View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+/* Actions */
+import { getSingleSymbolAction } from '../Market/marketActions';
 /* Components */
 import SymbolItem from '../../components/SymbolItem/SymbolItem';
 /* Styles */
@@ -9,11 +12,17 @@ import { styles } from './favoritesStyle';
 const { container, favoritesListWrapper } = styles;
 
 class Favorites extends PureComponent {
+    static propTypes = {
+        watchList: PropTypes.array,
+        getSingleSymbol: PropTypes.func,
+        userId: PropTypes.string
+    };
 
     keyExtractor = (item, index) => index.toString();
 
-    pressSymbolName = (symbolId) => {
-        console.log(symbolId);
+    pressSymbolName = (symbolId, displayName) => {
+        this.props.getSingleSymbol(this.props.userId, symbolId);
+        this.props.navigation.navigate('SingleSymbol', { params: displayName });
     };
 
     pressFavoriteIcon = (symbolId) => {
@@ -24,7 +33,7 @@ class Favorites extends PureComponent {
         name={ item.displayName }
         value={ item.price.ask }
         isFavorite
-        onLabelPress={ this.pressSymbolName.bind(this, item.id) }
+        onLabelPress={ this.pressSymbolName.bind(this, item.id, item.displayName) }
         onIconPress={ this.pressFavoriteIcon.bind(this, item.id) }
     />;
 
@@ -47,13 +56,14 @@ class Favorites extends PureComponent {
 
 const mapStateToProps = (store) => {
     return {
-        watchList: store.marketReducer.watchList
+        watchList: store.marketReducer.watchList,
+        userId: store.userReducer.userId
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        //func: () => dispatch(func())
+        getSingleSymbol: (userId, symbolId) => dispatch(getSingleSymbolAction(userId, symbolId))
     };
 };
 

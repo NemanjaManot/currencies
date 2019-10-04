@@ -37,9 +37,9 @@ class Market extends PureComponent {
 
     keyExtractor = (item, index) => index.toString();
 
-    pressSymbolName = (symbolId) => {
+    pressSymbolName = (symbolId, displayName) => {
         this.props.getSingleSymbol(this.props.userId, symbolId);
-        this.props.navigation.navigate('SingleSymbol');
+        this.props.navigation.navigate('SingleSymbol', { params: displayName });
     };
 
     pressFavoriteIcon = (symbolId) => {
@@ -50,7 +50,7 @@ class Market extends PureComponent {
         name={ item.displayName }
         value={ item.price.ask }
         isFavorite={ item.isFavorite }
-        onLabelPress={ this.pressSymbolName.bind(this, item.id) }
+        onLabelPress={ this.pressSymbolName.bind(this, item.id, item.displayName) }
         onIconPress={ this.pressFavoriteIcon.bind(this, item.id) }
     />;
 
