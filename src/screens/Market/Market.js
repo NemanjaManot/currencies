@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -11,9 +11,7 @@ import { getUserDataAction } from '../../shared/user/userActions';
 import { getFullSymbolsList } from './marketSelectors';
 /* Styles */
 import { styles } from './marketStyle';
-import { globalStyles } from '../../assets/globalStyle';
 
-const { TOUCHABLE_AREA } = globalStyles;
 const { container, marketListWrapper } = styles;
 
 class Market extends PureComponent {
@@ -36,10 +34,20 @@ class Market extends PureComponent {
 
     keyExtractor = (item, index) => index.toString();
 
+    pressSymbolName = (symbolId) => {
+        console.log(symbolId);
+    };
+
+    pressFavoriteIcon = (symbolId) => {
+        console.log(symbolId);
+    };
+
     renderItem = ({ item }) => <SymbolItem
         name={ item.displayName }
         value={ item.price.ask }
         isFavorite={ item.isFavorite }
+        onLabelPress={ this.pressSymbolName.bind(this, item.id) }
+        onIconPress={ this.pressFavoriteIcon.bind(this, item.id) }
     />;
 
     render() {

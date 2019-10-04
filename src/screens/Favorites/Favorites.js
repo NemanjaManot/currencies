@@ -12,10 +12,20 @@ class Favorites extends PureComponent {
 
     keyExtractor = (item, index) => index.toString();
 
+    pressSymbolName = (symbolId) => {
+        console.log(symbolId);
+    };
+
+    pressFavoriteIcon = (symbolId) => {
+        console.log(symbolId);
+    };
+
     renderItem = ({ item }) => <SymbolItem
         name={ item.displayName }
         value={ item.price.ask }
         isFavorite
+        onLabelPress={ this.pressSymbolName.bind(this, item.id) }
+        onIconPress={ this.pressFavoriteIcon.bind(this, item.id) }
     />;
 
     render() {
