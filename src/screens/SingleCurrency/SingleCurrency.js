@@ -1,23 +1,55 @@
 import React, { PureComponent } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 /* Styles */
 import { styles } from './singleCurrencyStyle';
 
-const { container } = styles;
+const { container, mainHeadingStyle, aboutWrapper, aboutTitle, aboutDesc } = styles;
 
 class SingleCurrency extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
         title: navigation.getParam('params')
     });
 
+    isAllDataFetched = () => {
+        const { singleSymbol, chartData } = this.props;
+        return singleSymbol && chartData;
+    };
+
+    titleHeading = (symbol) => {
+        if (symbol.price && symbol.price.ask) {
+            return (
+                <View>
+                    <Text style={ mainHeadingStyle }>$ { symbol.price.ask }</Text>
+                </View>
+            )
+        }
+    };
+
+    aboutSection = (symbol) => {
+        if (symbol.baseInstrument && symbol.baseInstrument.description)
+            return (
+                <View style={ aboutWrapper }>
+                    <Text style={ aboutTitle }>ABOUT</Text>
+                    <Text style={ aboutDesc }>{ symbol.baseInstrument.description }</Text>
+                </View>
+            )
+    };
+
+    renderContent = () => {
+        const { singleSymbol } = this.props;
+
+        return [this.titleHeading(singleSymbol), this.aboutSection(singleSymbol)]
+    };
+
     render() {
         // console.log(this.props.chartData);
         // console.log(this.props.singleSymbol);
+
         return (
-            <View style={ container }>
-                <Text>Single Currency screen</Text>
-            </View>
+            <ScrollView style={ container }>
+                { this.isAllDataFetched() ? this.renderContent() : null }
+            </ScrollView>
         )
     }
 }
