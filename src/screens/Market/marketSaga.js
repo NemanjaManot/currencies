@@ -5,16 +5,28 @@ import { MARKET } from './marketActionTypes';
 import MarketService from '../../services/marketService';
 
 export function* getSymbols(action) {
-    const response = yield MarketService.getSymbols(action.userId);
+    const symbols = yield MarketService.getSymbols(action.userId);
 
-    if (response.response.data) {
+    if (symbols.response.data) {
         yield put({
             type: MARKET.SET_MARKET_SYMBOLS,
-            symbols: response.response.data
+            symbols: symbols.response.data
+        })
+    }
+}
+
+export function* getWatchlist(action) {
+    const watchlist = yield MarketService.getWatchlist(action.userAccountId);
+
+    if (watchlist.response.data) {
+        yield put({
+            type: MARKET.SET_WATCHLIST,
+            watchlist: watchlist.response.data
         })
     }
 }
 
 export default function* marketSaga() {
     yield takeEvery(MARKET.GET_MARKET_SYMBOLS, getSymbols);
+    yield takeEvery(MARKET.GET_WATCHLIST, getWatchlist);
 }

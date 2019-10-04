@@ -25,10 +25,20 @@ export function* getUserInfo() {
         // call user accounts
         const userAccounts = yield UserService.getUserAccounts(user.response.data.userInfo.userId);
         if (userAccounts.response) {
+            const userAccount = userAccounts.response.data[0];
             yield put({
                 type: USER.SET_USER_ACCOUNTS,
-                userAccount: userAccounts.response.data[0]
+                userAccount
             });
+
+            // call watchlist
+            if (userAccount && userAccount.id) {
+                yield put({
+                    type: MARKET.GET_WATCHLIST,
+                    userAccountId: userAccount.id
+                });
+            }
+
         }
     } else {
         yield AsyncStorageService.clearTokens();
