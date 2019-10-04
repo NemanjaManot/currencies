@@ -8,6 +8,7 @@ const { container } = styles;
 
 class SingleCurrency extends PureComponent {
     render() {
+        console.log(this.props.chartData);
         console.log(this.props.singleSymbol);
         return (
             <View style={ container }>
@@ -19,7 +20,8 @@ class SingleCurrency extends PureComponent {
 
 const mapStateToProps = (store) => {
     return {
-        singleSymbol: store.marketReducer.singleSymbol
+        singleSymbol: store.marketReducer.singleSymbol,
+        chartData: store.marketReducer.chartData
     };
 };
 

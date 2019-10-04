@@ -3,7 +3,8 @@ import { MARKET } from './marketActionTypes';
 const initialState = {
     symbols: null,
     watchList: null,
-    singleSymbol: null
+    singleSymbol: null,
+    chartData: null
 };
 
 export default function marketReducer(state = initialState, action) {
@@ -22,6 +23,11 @@ export default function marketReducer(state = initialState, action) {
             return {
                 ...state,
                 singleSymbol: action.singleSymbol
+            };
+        case MARKET.SET_CHART_DATA:
+            return {
+                ...state,
+                chartData: action.chartData
             };
         default:
             return state;

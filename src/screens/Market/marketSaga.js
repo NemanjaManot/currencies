@@ -28,11 +28,19 @@ export function* getWatchlist(action) {
 
 export function* getSingleSymbol(action) {
     const response = yield MarketService.getSingleSymbol(action.userId, action.symbolId);
+    const chartData = yield MarketService.getChartData(action.userId, action.symbolId);
 
     if (response.data) {
         yield put({
             type: MARKET.SET_SINGLE_SYMBOL,
             singleSymbol: response.data
+        })
+    }
+
+    if (chartData.data) {
+        yield put({
+            type: MARKET.SET_CHART_DATA,
+            chartData: chartData.data
         })
     }
 }
