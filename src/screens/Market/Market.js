@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,19 +7,22 @@ import PropTypes from 'prop-types';
 import SymbolItem from '../../components/SymbolItem/SymbolItem';
 /* Actions */
 import { getUserDataAction } from '../../shared/user/userActions';
+import { getSingleSymbolAction, toggleWatchlistAction } from './marketActions';
 /* Selectors */
 import { getFullSymbolsList } from './marketSelectors';
 /* Styles */
 import { styles } from './marketStyle';
-import { globalStyles } from '../../assets/globalStyle';
 
-const { TOUCHABLE_AREA } = globalStyles;
 const { container, marketListWrapper } = styles;
 
 class Market extends PureComponent {
     static propTypes = {
         getUserData: PropTypes.func,
-        symbols: PropTypes.array
+        symbols: PropTypes.array,
+        getSingleSymbol: PropTypes.func,
+        userId: PropTypes.string,
+        toggleWatchlist: PropTypes.func,
+        userAccount: PropTypes.object
     };
 
     state = {
@@ -30,16 +33,24 @@ class Market extends PureComponent {
         this.props.getUserData();
     }
 
-    onBtnPress = () => {
-        this.props.navigation.navigate('SingleSymbol')
+    keyExtractor = (item, index) => index.toString();
+
+    pressSymbolName = (symbolId, displayName) => {
+        this.props.getSingleSymbol(this.props.userId, symbolId);
+        this.props.navigation.navigate('SingleSymbol', { params: displayName });
     };
 
-    keyExtractor = (item, index) => index.toString();
+    pressFavoriteIcon = (symbolId, isFavorite) => {
+        const following = !isFavorite;
+        this.props.toggleWatchlist(this.props.userAccount.id, symbolId, following);
+    };
 
     renderItem = ({ item }) => <SymbolItem
         name={ item.displayName }
         value={ item.price.ask }
-        isFavorited={ item.isFavorited }
+        isFavorite={ item.isFavorite }
+        onLabelPress={ this.pressSymbolName.bind(this, item.id, item.displayName) }
+        onIconPress={ this.pressFavoriteIcon.bind(this, item.id, item.isFavorite) }
     />;
 
     render() {
@@ -62,16 +73,6 @@ class Market extends PureComponent {
                     />
                     }
                 </View>
-                { /*
-                <View style={ { marginTop: 30 } }>
-                    <Text>Market screen</Text>
-                    <TouchableOpacity
-                        hitSlop={ TOUCHABLE_AREA }
-                        onPress={ this.onBtnPress }
-                    >
-                        <Text>Go to single symbol screen</Text>
-                    </TouchableOpacity>
-                </View>*/ }
             </View>
         )
     }
@@ -79,13 +80,17 @@ class Market extends PureComponent {
 
 const mapStateToProps = (store) => {
     return {
-        symbols: getFullSymbolsList(store)
+        symbols: getFullSymbolsList(store),
+        userId: store.userReducer.userId,
+        userAccount: store.userReducer.userAccount
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getUserData: () => dispatch(getUserDataAction())
+        getUserData: () => dispatch(getUserDataAction()),
+        getSingleSymbol: (userId, symbolId) => dispatch(getSingleSymbolAction(userId, symbolId)),
+        toggleWatchlist: (accountId, symbolId, isFollowing) => dispatch(toggleWatchlistAction(accountId, symbolId, isFollowing))
     };
 };
 

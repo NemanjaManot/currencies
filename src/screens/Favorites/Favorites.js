@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import { View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+/* Actions */
+import { getSingleSymbolAction, toggleWatchlistAction } from '../Market/marketActions';
 /* Components */
 import SymbolItem from '../../components/SymbolItem/SymbolItem';
 /* Styles */
@@ -9,13 +12,31 @@ import { styles } from './favoritesStyle';
 const { container, favoritesListWrapper } = styles;
 
 class Favorites extends PureComponent {
+    static propTypes = {
+        watchList: PropTypes.array,
+        getSingleSymbol: PropTypes.func,
+        userId: PropTypes.string,
+        toggleWatchlist: PropTypes.func,
+        userAccount: PropTypes.object
+    };
 
     keyExtractor = (item, index) => index.toString();
+
+    pressSymbolName = (symbolId, displayName) => {
+        this.props.getSingleSymbol(this.props.userId, symbolId);
+        this.props.navigation.navigate('SingleSymbol', { params: displayName });
+    };
+
+    pressFavoriteIcon = (symbolId) => {
+        this.props.toggleWatchlist(this.props.userAccount.id, symbolId, false);
+    };
 
     renderItem = ({ item }) => <SymbolItem
         name={ item.displayName }
         value={ item.price.ask }
-        isFavorited
+        isFavorite
+        onLabelPress={ this.pressSymbolName.bind(this, item.id, item.displayName) }
+        onIconPress={ this.pressFavoriteIcon.bind(this, item.id) }
     />;
 
     render() {
@@ -37,13 +58,16 @@ class Favorites extends PureComponent {
 
 const mapStateToProps = (store) => {
     return {
-        watchList: store.marketReducer.watchList
+        watchList: store.marketReducer.watchList,
+        userId: store.userReducer.userId,
+        userAccount: store.userReducer.userAccount
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        //func: () => dispatch(func())
+        getSingleSymbol: (userId, symbolId) => dispatch(getSingleSymbolAction(userId, symbolId)),
+        toggleWatchlist: (accountId, symbolId, isFollowing) => dispatch(toggleWatchlistAction(accountId, symbolId, isFollowing))
     };
 };
 
