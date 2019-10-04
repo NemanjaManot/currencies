@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import SymbolItem from '../../components/SymbolItem/SymbolItem';
 /* Actions */
 import { getUserDataAction } from '../../shared/user/userActions';
+import { getSingleSymbolAction } from './marketActions';
 /* Selectors */
 import { getFullSymbolsList } from './marketSelectors';
 /* Styles */
@@ -17,7 +18,9 @@ const { container, marketListWrapper } = styles;
 class Market extends PureComponent {
     static propTypes = {
         getUserData: PropTypes.func,
-        symbols: PropTypes.array
+        symbols: PropTypes.array,
+        getSingleSymbol: PropTypes.func,
+        userId: PropTypes.string
     };
 
     state = {
@@ -35,7 +38,8 @@ class Market extends PureComponent {
     keyExtractor = (item, index) => index.toString();
 
     pressSymbolName = (symbolId) => {
-        console.log(symbolId);
+        this.props.getSingleSymbol(this.props.userId, symbolId);
+        this.props.navigation.navigate('SingleSymbol');
     };
 
     pressFavoriteIcon = (symbolId) => {
@@ -70,16 +74,6 @@ class Market extends PureComponent {
                     />
                     }
                 </View>
-                { /*
-                <View style={ { marginTop: 30 } }>
-                    <Text>Market screen</Text>
-                    <TouchableOpacity
-                        hitSlop={ TOUCHABLE_AREA }
-                        onPress={ this.onBtnPress }
-                    >
-                        <Text>Go to single symbol screen</Text>
-                    </TouchableOpacity>
-                </View>*/ }
             </View>
         )
     }
@@ -87,13 +81,15 @@ class Market extends PureComponent {
 
 const mapStateToProps = (store) => {
     return {
-        symbols: getFullSymbolsList(store)
+        symbols: getFullSymbolsList(store),
+        userId: store.userReducer.userId
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getUserData: () => dispatch(getUserDataAction())
+        getUserData: () => dispatch(getUserDataAction()),
+        getSingleSymbol: (userId, symbolId) => dispatch(getSingleSymbolAction(userId, symbolId))
     };
 };
 

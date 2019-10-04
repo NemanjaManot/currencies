@@ -14,6 +14,11 @@ class MarketService {
             following: isFollowing,
         }).then(response => (response)).catch(error => (error));
     }
+
+    getSingleSymbol(userId, symbolId) {
+        return ApiHelper.get(`users/${userId}/symbols/${symbolId}`)
+            .then(response => (response)).catch(error => (error));
+    }
 }
 
 export default new MarketService();

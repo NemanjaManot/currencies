@@ -5,11 +5,11 @@ export const getFullSymbolsList = createSelector(
     state => state.marketReducer.watchList,
     (symbols, watchList) => {
         if (symbols && watchList) {
-            return symbols.map(el => {
-                if (watchList.find(el2 => el.id === el2.id)) {
-                    el.isFavorite = true;
+            return symbols.map(symbol => {
+                if (watchList.find(item => symbol.id === item.id)) {
+                    symbol.isFavorite = true;
                 }
-                return el;
+                return symbol;
             });
         }
     }

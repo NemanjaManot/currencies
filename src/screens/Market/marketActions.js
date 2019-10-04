@@ -1,6 +1,7 @@
 import { MARKET } from './marketActionTypes';
 
-export const getMarketSymbolsAction = (userId) => ({
-    type: MARKET.GET_MARKET_SYMBOLS,
-    userId
+export const getSingleSymbolAction = (userId, symbolId) => ({
+    type: MARKET.GET_SINGLE_SYMBOL,
+    userId,
+    symbolId
 });

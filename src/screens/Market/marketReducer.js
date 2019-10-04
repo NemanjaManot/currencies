@@ -2,7 +2,8 @@ import { MARKET } from './marketActionTypes';
 
 const initialState = {
     symbols: null,
-    watchList: null
+    watchList: null,
+    singleSymbol: null
 };
 
 export default function marketReducer(state = initialState, action) {
@@ -16,6 +17,11 @@ export default function marketReducer(state = initialState, action) {
             return {
                 ...state,
                 watchList: action.watchList
+            };
+        case MARKET.SET_SINGLE_SYMBOL:
+            return {
+                ...state,
+                singleSymbol: action.singleSymbol
             };
         default:
             return state;

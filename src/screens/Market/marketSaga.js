@@ -26,7 +26,19 @@ export function* getWatchlist(action) {
     }
 }
 
+export function* getSingleSymbol(action) {
+    const response = yield MarketService.getSingleSymbol(action.userId, action.symbolId);
+
+    if (response.data) {
+        yield put({
+            type: MARKET.SET_SINGLE_SYMBOL,
+            singleSymbol: response.data
+        })
+    }
+}
+
 export default function* marketSaga() {
     yield takeEvery(MARKET.GET_MARKET_SYMBOLS, getSymbols);
     yield takeEvery(MARKET.GET_WATCHLIST, getWatchlist);
+    yield takeEvery(MARKET.GET_SINGLE_SYMBOL, getSingleSymbol);
 }
