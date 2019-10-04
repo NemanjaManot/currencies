@@ -8,6 +8,12 @@ class MarketService {
     getWatchlist(accountId) {
         return ApiHelper.get(`accounts/${accountId}/watchlist`).then(response => ({ response })).catch(error => ({ error }));
     };
+
+    toggleWatchlist(accountId, symbolId, isFollowing) {
+        return ApiHelper.put(`accounts/${accountId}/watchlist/${symbolId}`, {
+            following: isFollowing,
+        }).then(response => ({ response })).catch(error => ({ error }));
+    }
 }
 
 export default new MarketService();
