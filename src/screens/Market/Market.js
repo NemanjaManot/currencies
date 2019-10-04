@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import { ScrollView, View, Text, TouchableOpacity } from 'react-native';
-import { Searchbar, Colors } from 'react-native-paper';
+import { Searchbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 /* Components */
-import SymbolItem from '../../components/SymbolItem.js/SymbolItem';
+import SymbolItem from '../../components/SymbolItem/SymbolItem';
 /* Actions */
 import { getUserDataAction } from '../../shared/user/userActions';
 /* Selectors */
@@ -12,8 +12,6 @@ import { getFullSymbolsList } from './marketSelectors';
 /* Styles */
 import { styles } from './marketStyle';
 import { globalStyles } from '../../assets/globalStyle';
-/* Themes and colors */
-import { otherColors, theme } from '../../assets/theme';
 
 const { TOUCHABLE_AREA } = globalStyles;
 const { container, marketListWrapper } = styles;
@@ -42,7 +40,7 @@ class Market extends PureComponent {
                 <SymbolItem
                     name={ symbol.displayName }
                     value={ symbol.price.ask }
-                    iconColor={ symbol.isFavorited ? otherColors.secundaryColor : Colors.grey400 }
+                    isFavorited={ symbol.isFavorited }
                 />
             )
         });
