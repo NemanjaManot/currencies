@@ -45,8 +45,13 @@ export function* getSingleSymbol(action) {
     }
 }
 
+export function* toggleWatchlist(action) {
+    yield MarketService.toggleWatchlist(action.accountId, action.symbolId, action.isFollowing);
+}
+
 export default function* marketSaga() {
     yield takeEvery(MARKET.GET_MARKET_SYMBOLS, getSymbols);
     yield takeEvery(MARKET.GET_WATCHLIST, getWatchlist);
     yield takeEvery(MARKET.GET_SINGLE_SYMBOL, getSingleSymbol);
+    yield takeEvery(MARKET.TOGGLE_WATCHLIST, toggleWatchlist);
 }

@@ -3,7 +3,7 @@ import { View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 /* Actions */
-import { getSingleSymbolAction } from '../Market/marketActions';
+import { getSingleSymbolAction, toggleWatchlistAction } from '../Market/marketActions';
 /* Components */
 import SymbolItem from '../../components/SymbolItem/SymbolItem';
 /* Styles */
@@ -15,7 +15,9 @@ class Favorites extends PureComponent {
     static propTypes = {
         watchList: PropTypes.array,
         getSingleSymbol: PropTypes.func,
-        userId: PropTypes.string
+        userId: PropTypes.string,
+        toggleWatchlist: PropTypes.func,
+        userAccount: PropTypes.object
     };
 
     keyExtractor = (item, index) => index.toString();
@@ -26,7 +28,7 @@ class Favorites extends PureComponent {
     };
 
     pressFavoriteIcon = (symbolId) => {
-        console.log(symbolId);
+        this.props.toggleWatchlist(this.props.userAccount.id, symbolId, false);
     };
 
     renderItem = ({ item }) => <SymbolItem
@@ -57,13 +59,15 @@ class Favorites extends PureComponent {
 const mapStateToProps = (store) => {
     return {
         watchList: store.marketReducer.watchList,
-        userId: store.userReducer.userId
+        userId: store.userReducer.userId,
+        userAccount: store.userReducer.userAccount
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getSingleSymbol: (userId, symbolId) => dispatch(getSingleSymbolAction(userId, symbolId))
+        getSingleSymbol: (userId, symbolId) => dispatch(getSingleSymbolAction(userId, symbolId)),
+        toggleWatchlist: (accountId, symbolId, isFollowing) => dispatch(toggleWatchlistAction(accountId, symbolId, isFollowing))
     };
 };
 

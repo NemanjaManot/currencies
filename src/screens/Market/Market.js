@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import SymbolItem from '../../components/SymbolItem/SymbolItem';
 /* Actions */
 import { getUserDataAction } from '../../shared/user/userActions';
-import { getSingleSymbolAction } from './marketActions';
+import { getSingleSymbolAction, toggleWatchlistAction } from './marketActions';
 /* Selectors */
 import { getFullSymbolsList } from './marketSelectors';
 /* Styles */
@@ -20,7 +20,9 @@ class Market extends PureComponent {
         getUserData: PropTypes.func,
         symbols: PropTypes.array,
         getSingleSymbol: PropTypes.func,
-        userId: PropTypes.string
+        userId: PropTypes.string,
+        toggleWatchlist: PropTypes.func,
+        userAccount: PropTypes.object
     };
 
     state = {
@@ -31,10 +33,6 @@ class Market extends PureComponent {
         this.props.getUserData();
     }
 
-    onBtnPress = () => {
-        this.props.navigation.navigate('SingleSymbol')
-    };
-
     keyExtractor = (item, index) => index.toString();
 
     pressSymbolName = (symbolId, displayName) => {
@@ -42,8 +40,9 @@ class Market extends PureComponent {
         this.props.navigation.navigate('SingleSymbol', { params: displayName });
     };
 
-    pressFavoriteIcon = (symbolId) => {
-        console.log(symbolId);
+    pressFavoriteIcon = (symbolId, isFavorite) => {
+        const following = !isFavorite;
+        this.props.toggleWatchlist(this.props.userAccount.id, symbolId, following);
     };
 
     renderItem = ({ item }) => <SymbolItem
@@ -51,7 +50,7 @@ class Market extends PureComponent {
         value={ item.price.ask }
         isFavorite={ item.isFavorite }
         onLabelPress={ this.pressSymbolName.bind(this, item.id, item.displayName) }
-        onIconPress={ this.pressFavoriteIcon.bind(this, item.id) }
+        onIconPress={ this.pressFavoriteIcon.bind(this, item.id, item.isFavorite) }
     />;
 
     render() {
@@ -82,14 +81,16 @@ class Market extends PureComponent {
 const mapStateToProps = (store) => {
     return {
         symbols: getFullSymbolsList(store),
-        userId: store.userReducer.userId
+        userId: store.userReducer.userId,
+        userAccount: store.userReducer.userAccount
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         getUserData: () => dispatch(getUserDataAction()),
-        getSingleSymbol: (userId, symbolId) => dispatch(getSingleSymbolAction(userId, symbolId))
+        getSingleSymbol: (userId, symbolId) => dispatch(getSingleSymbolAction(userId, symbolId)),
+        toggleWatchlist: (accountId, symbolId, isFollowing) => dispatch(toggleWatchlistAction(accountId, symbolId, isFollowing))
     };
 };
 

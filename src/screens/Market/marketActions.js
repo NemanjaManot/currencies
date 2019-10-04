@@ -5,3 +5,10 @@ export const getSingleSymbolAction = (userId, symbolId) => ({
     userId,
     symbolId
 });
+
+export const toggleWatchlistAction = (accountId, symbolId, isFollowing) => ({
+    type: MARKET.TOGGLE_WATCHLIST,
+    accountId,
+    symbolId,
+    isFollowing
+});
