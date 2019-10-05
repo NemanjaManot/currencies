@@ -38,6 +38,11 @@ export default function marketReducer(state = initialState, action) {
                 news,
                 isAllNewsFetched: action.isAllNewsFetched
             };
+        case MARKET.RESET_NEWS:
+            return {
+                ...state,
+                news: []
+            };
         default:
             return state;
     }

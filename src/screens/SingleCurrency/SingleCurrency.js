@@ -3,7 +3,7 @@ import { View, Text, ScrollView, FlatList, TouchableOpacity } from 'react-native
 import { connect } from 'react-redux';
 import moment from 'moment';
 /* Actions */
-import { getNewsAction } from '../Market/marketActions';
+import { getNewsAction, resetNewsAction } from '../Market/marketActions';
 /* Styles */
 import { styles } from './singleCurrencyStyle';
 
@@ -28,6 +28,10 @@ class SingleCurrency extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
         title: navigation.getParam('params')
     });
+
+    componentWillUnmount() {
+        this.props.resetNews();
+    }
 
     isAllDataFetched = () => {
         const { singleSymbol, news } = this.props;
@@ -120,7 +124,8 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getNews: offset => dispatch(getNewsAction(offset))
+        getNews: offset => dispatch(getNewsAction(offset)),
+        resetNews: () => dispatch(resetNewsAction())
     };
 };
 
