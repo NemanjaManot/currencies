@@ -37,7 +37,7 @@ class SymbolItem extends PureComponent {
                         onPress={ this.props.onIconPress }
                         hitSlop={ TOUCHABLE_AREA }
                     >
-                        { FooterTabIcon('favorite', isFavorite ? otherColors.secundaryColor : Colors.grey400) }
+                        { FooterTabIcon('favorite', isFavorite ? otherColors.secondaryColor : Colors.grey400) }
                     </TouchableOpacity>
                 </View>
             </View>

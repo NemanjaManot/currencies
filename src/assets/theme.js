@@ -20,5 +20,5 @@ export const theme = {
 };
 
 export const otherColors = {
-    secundaryColor: pink
+    secondaryColor: pink
 };

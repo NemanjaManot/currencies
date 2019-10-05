@@ -53,6 +53,11 @@ class Market extends PureComponent {
         onIconPress={ this.pressFavoriteIcon.bind(this, item.id, item.isFavorite) }
     />;
 
+    onSearchList = query => this.setState({ query });
+
+    getFilteredList = () => this.props.symbols.filter(
+        symbol => symbol.displayName.toLowerCase().includes(this.state.query.toLowerCase()));
+
     render() {
         return (
             <View style={ container }>
@@ -60,14 +65,14 @@ class Market extends PureComponent {
                     placeholder="Search here"
                     autoCapitalize="none"
                     autoCorrect={ false }
-                    //onChangeText={ this.onSearchChange }
+                    onChangeText={ this.onSearchList }
                     value={ this.state.query }
                 />
 
                 <View style={ marketListWrapper }>
                     { this.props.symbols &&
                     <FlatList
-                        data={ this.props.symbols }
+                        data={ this.getFilteredList() }
                         renderItem={ this.renderItem }
                         keyExtractor={ this.keyExtractor }
                     />
