@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+/* Components */
+import Loader from '../../components/Loader/Loader';
 /* Services */
 import AsyncStorageService from "../../services/asyncStorageService";
 
@@ -17,7 +19,7 @@ class InitialLoading extends PureComponent {
     };
 
     render() {
-        return null;
+        return <Loader/>;
     }
 }
 
