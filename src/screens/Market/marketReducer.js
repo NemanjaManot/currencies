@@ -4,7 +4,9 @@ const initialState = {
     symbols: null,
     watchList: null,
     singleSymbol: null,
-    chartData: null
+    chartData: null,
+    news: [],
+    isAllNewsFetched: false
 };
 
 export default function marketReducer(state = initialState, action) {
@@ -28,6 +30,18 @@ export default function marketReducer(state = initialState, action) {
             return {
                 ...state,
                 chartData: action.chartData
+            };
+        case MARKET.SET_NEWS:
+            const news = state.news.slice().concat(action.news);
+            return {
+                ...state,
+                news,
+                isAllNewsFetched: action.isAllNewsFetched
+            };
+        case MARKET.RESET_NEWS:
+            return {
+                ...state,
+                news: []
             };
         default:
             return state;

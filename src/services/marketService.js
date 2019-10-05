@@ -1,4 +1,5 @@
 import ApiHelper from '../utils/apiHelper';
+import { APP_ID } from '../config';
 
 class MarketService {
     getSymbols(userId) {
@@ -23,6 +24,12 @@ class MarketService {
     getChartData(userId, symbolId) {
         return ApiHelper.get(`users/${userId}/symbols/${symbolId}/chart`)
             .then(response => (response)).catch(error => (error));
+    }
+
+    getNews(limit, offset) {
+        return ApiHelper.get(`applications/${APP_ID}/news/coinpulse`, { limit, offset })
+            .then(response => (response))
+            .catch(error => (error));
     }
 }
 
