@@ -1,4 +1,4 @@
-import { takeEvery, put, all } from 'redux-saga/effects';
+import { takeEvery, put } from 'redux-saga/effects';
 /* Action types */
 import { LOGIN } from './loginActionTypes';
 import { USER } from '../../shared/user/userActionTypes';
@@ -7,22 +7,34 @@ import NavigationService from '../../services/navigationService';
 import LoginService from '../../services/loginService';
 import AsyncStorageService from '../../services/asyncStorageService';
 
+function* isLoginLoading(isLoginLoading) {
+    yield put({
+        type: LOGIN.LOADING,
+        isLoginLoading
+    });
+}
+
 export function* tryUserLogin(action) {
+    yield isLoginLoading(true);
+
     const params = {
         email: action.loginParams.email,
         password: action.loginParams.password
     };
     const response = yield LoginService.loginUser(params.email, params.password);
 
-    if (response.response) {
-        yield AsyncStorageService.setAccessToken(response.response.data.accessToken);
-        yield put({ type: USER.GET_INFO });
-        NavigationService.navigate('App');
-    } else {
-        yield put({
-            type: LOGIN.SET_ERROR_MESSAGE,
-            errorMessage: response.error.response.data.message
-        });
+    if (response) {
+        if (response.response) {
+            yield AsyncStorageService.setAccessToken(response.response.data.accessToken);
+            yield put({ type: USER.GET_INFO });
+            NavigationService.navigate('App');
+        } else {
+            yield put({
+                type: LOGIN.SET_ERROR_MESSAGE,
+                errorMessage: response.error.response.data.message
+            });
+        }
+        yield isLoginLoading(false);
     }
 }
 

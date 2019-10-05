@@ -144,6 +144,7 @@ class Login extends PureComponent {
                             contentStyle={ loginButton }
                             mode="contained"
                             onPress={ this.onSubmit }
+                            loading={ this.props.isLoginLoading }
                         >
                             Sign In
                         </Button>
@@ -156,7 +157,8 @@ class Login extends PureComponent {
 
 const mapStateToProps = (store) => {
     return {
-        errorMessage: store.loginReducer.errorMessage
+        errorMessage: store.loginReducer.errorMessage,
+        isLoginLoading: store.loginReducer.isLoginLoading
     };
 };
 

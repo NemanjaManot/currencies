@@ -2,7 +2,8 @@
 import { LOGIN } from './loginActionTypes';
 
 const INITIAL_STATE = {
-    errorMessage: null
+    errorMessage: null,
+    isLoginLoading: false
 };
 
 export default function loginReducer(state = INITIAL_STATE, action) {
@@ -11,6 +12,12 @@ export default function loginReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 errorMessage: action.errorMessage
+            }
+        }
+        case LOGIN.LOADING: {
+            return {
+                ...state,
+                isLoginLoading: action.isLoginLoading
             }
         }
         default:
