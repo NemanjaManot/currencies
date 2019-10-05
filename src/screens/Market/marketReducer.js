@@ -6,7 +6,8 @@ const initialState = {
     singleSymbol: null,
     chartData: null,
     news: [],
-    isAllNewsFetched: false
+    isAllNewsFetched: false,
+    // toggledItem: null
 };
 
 export default function marketReducer(state = initialState, action) {
@@ -42,6 +43,20 @@ export default function marketReducer(state = initialState, action) {
             return {
                 ...state,
                 news: []
+            };
+        case MARKET.TOGGLE_WATCHLIST_SUCCESS:
+            let updatedWatchList = [];
+            if (action.isFollowing) {
+                updatedWatchList = state.watchList.concat(action.toggledItem)
+            } else {
+                updatedWatchList = state.watchList.filter(item => {
+                    return item.id !== action.toggledItem.id
+                })
+            }
+
+            return {
+                ...state,
+                watchList: updatedWatchList,
             };
         default:
             return state;

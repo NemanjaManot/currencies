@@ -55,7 +55,15 @@ export function* getNews(action) {
 }
 
 export function* toggleWatchlist(action) {
-    yield MarketService.toggleWatchlist(action.accountId, action.symbolId, action.isFollowing);
+    const response = yield MarketService.toggleWatchlist(action.accountId, action.symbolId, action.isFollowing);
+
+    if (response.data) {
+        yield put({
+            type: MARKET.TOGGLE_WATCHLIST_SUCCESS,
+            toggledItem: response.data,
+            isFollowing: action.isFollowing
+        })
+    }
 }
 
 export default function* marketSaga() {
