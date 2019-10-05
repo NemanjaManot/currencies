@@ -8,6 +8,8 @@ export const getFullSymbolsList = createSelector(
             return symbols.map(symbol => {
                 if (watchList.find(item => symbol.id === item.id)) {
                     symbol.isFavorite = true;
+                } else {
+                    symbol.isFavorite = false;
                 }
                 return symbol;
             });
