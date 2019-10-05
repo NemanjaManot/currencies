@@ -1,8 +1,15 @@
 import React, { PureComponent } from 'react';
 import { View, Text, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+/* Actions */
+import { getNewsAction } from '../Market/marketActions';
 /* Styles */
 import { styles } from './singleCurrencyStyle';
+
+let newsParams = {
+    Offset: 0,
+    Limit: 5
+};
 
 const {
     container,
@@ -23,7 +30,7 @@ class SingleCurrency extends PureComponent {
 
     isAllDataFetched = () => {
         const { singleSymbol, news } = this.props;
-        return singleSymbol && news;
+        return (singleSymbol && news);
     };
 
     titleHeading = (symbol) => {
@@ -44,6 +51,15 @@ class SingleCurrency extends PureComponent {
                     <Text style={ aboutDesc }>{ symbol.baseInstrument.description }</Text>
                 </View>
             )
+    };
+
+    onShowMoreBtnPress = () => {
+        const newOffset = newsParams.Offset + newsParams.Limit;
+        newsParams = {
+            ...newsParams,
+            Offset: newOffset
+        };
+        this.props.getNews(newOffset);
     };
 
     keyExtractor = (item, index) => index.toString();
@@ -71,9 +87,9 @@ class SingleCurrency extends PureComponent {
                     initialNumToRender={ INITIAL_NUM_TO_RENDER }
                     windowSize={ INITIAL_NUM_TO_RENDER }
                 />
-                <TouchableOpacity>
+                { !this.props.isAllNewsFetched ? <TouchableOpacity onPress={ this.onShowMoreBtnPress }>
                     <Text style={ showMore }>SHOW MORE</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> : null }
             </View>
         )
     };
@@ -96,8 +112,15 @@ class SingleCurrency extends PureComponent {
 const mapStateToProps = (store) => {
     return {
         singleSymbol: store.marketReducer.singleSymbol,
-        news: store.marketReducer.news
+        news: store.marketReducer.news,
+        isAllNewsFetched: store.marketReducer.isAllNewsFetched
     };
 };
 
-export default connect(mapStateToProps, null)(SingleCurrency);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getNews: offset => dispatch(getNewsAction(offset))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleCurrency);

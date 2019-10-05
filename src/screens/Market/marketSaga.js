@@ -45,9 +45,11 @@ export function* getNews(action) {
     const response = yield MarketService.getNews(5, action.offset);
 
     if (response.data) {
+        const isAllNewsFetched = !response.data.next;
         yield put({
             type: MARKET.SET_NEWS,
-            news: response.data.results
+            news: response.data.results,
+            isAllNewsFetched
         })
     }
 }

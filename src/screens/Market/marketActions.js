@@ -12,3 +12,8 @@ export const toggleWatchlistAction = (accountId, symbolId, isFollowing) => ({
     symbolId,
     isFollowing
 });
+
+export const getNewsAction = (offset) => ({
+    type: MARKET.GET_NEWS,
+    offset
+});
