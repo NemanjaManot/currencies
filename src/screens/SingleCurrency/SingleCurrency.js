@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import moment from 'moment';
 /* Actions */
 import { getNewsAction } from '../Market/marketActions';
 /* Styles */
@@ -68,7 +69,7 @@ class SingleCurrency extends PureComponent {
         return (
             <View style={ newsWrapper }>
                 <Text style={ newsTitleStyle }>{ item.title }</Text>
-                <Text style={ newsDateStyle }>{ item.published }</Text>
+                <Text style={ newsDateStyle }>{ moment(item.published).format("DD MMM YYYY") }</Text>
             </View>
         )
     };
