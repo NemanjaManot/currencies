@@ -10,8 +10,8 @@ import { styles } from './favoritesStyle';
 
 const { container, favoritesListWrapper } = styles;
 
-const Favorites = ({ getSingleSymbol, userId, toggleWatchlist, userAccount, watchList }) => {
-    const pressSymbolName = (symbolId, displayName, navigation) => {
+const Favorites = ({ getSingleSymbol, userId, toggleWatchlist, userAccount, watchList, navigation }) => {
+    const pressSymbolName = (symbolId, displayName) => {
         getSingleSymbol(userId, symbolId);
         navigation.navigate('SingleSymbol', { params: displayName });
     };
