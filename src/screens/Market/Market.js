@@ -33,8 +33,6 @@ class Market extends PureComponent {
         this.props.getUserData();
     }
 
-    keyExtractor = (item, index) => index.toString();
-
     pressSymbolName = (symbolId, displayName) => {
         this.props.getSingleSymbol(this.props.userId, symbolId);
         this.props.navigation.navigate('SingleSymbol', { params: displayName });
@@ -74,7 +72,7 @@ class Market extends PureComponent {
                     <FlatList
                         data={ this.getFilteredList() }
                         renderItem={ this.renderItem }
-                        keyExtractor={ this.keyExtractor }
+                        keyExtractor={ item => item.id }
                     />
                     }
                 </View>

@@ -20,8 +20,6 @@ class Favorites extends PureComponent {
         userAccount: PropTypes.object
     };
 
-    keyExtractor = (item, index) => index.toString();
-
     pressSymbolName = (symbolId, displayName) => {
         this.props.getSingleSymbol(this.props.userId, symbolId);
         this.props.navigation.navigate('SingleSymbol', { params: displayName });
@@ -47,7 +45,7 @@ class Favorites extends PureComponent {
                     <FlatList
                         data={ this.props.watchList }
                         renderItem={ this.renderItem }
-                        keyExtractor={ this.keyExtractor }
+                        keyExtractor={ item => item.id }
                     />
                     }
                 </View>
