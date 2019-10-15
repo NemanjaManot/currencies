@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -24,18 +24,21 @@ const {
     showMore
 } = styles;
 
-const SingleCurrency = ({ navigation, singleSymbol, news, resetNews, getNews, isAllNewsFetched }) => {
-    useEffect(() => {
-        return () => {
-            resetNews();
-        }
-    }, []);
+class SingleCurrency extends PureComponent {
+    static navigationOptions = ({ navigation }) => ({
+        title: navigation.getParam('params')
+    });
 
-    const isAllDataFetched = () => {
+    componentWillUnmount() {
+        this.props.resetNews();
+    }
+
+    isAllDataFetched = () => {
+        const { singleSymbol, news } = this.props;
         return (singleSymbol && news);
     };
 
-    const titleHeading = (symbol) => {
+    titleHeading = (symbol) => {
         if (symbol.price && symbol.price.ask) {
             return (
                 <View>
@@ -45,7 +48,7 @@ const SingleCurrency = ({ navigation, singleSymbol, news, resetNews, getNews, is
         }
     };
 
-    const aboutSection = (symbol) => {
+    aboutSection = (symbol) => {
         if (symbol.baseInstrument && symbol.baseInstrument.description)
             return (
                 <View style={ aboutWrapper }>
@@ -55,18 +58,18 @@ const SingleCurrency = ({ navigation, singleSymbol, news, resetNews, getNews, is
             )
     };
 
-    const onShowMoreBtnPress = () => {
+    onShowMoreBtnPress = () => {
         const newOffset = newsParams.Offset + newsParams.Limit;
         newsParams = {
             ...newsParams,
             Offset: newOffset
         };
-        getNews(newOffset);
+        this.props.getNews(newOffset);
     };
 
-    const keyExtractor = (item, index) => index.toString();
+    keyExtractor = (item, index) => index.toString();
 
-    const renderItem = ({ item }) => {
+    renderItem = ({ item }) => {
         return (
             <View style={ newsWrapper }>
                 <Text style={ newsTitleStyle }>{ item.title }</Text>
@@ -75,40 +78,41 @@ const SingleCurrency = ({ navigation, singleSymbol, news, resetNews, getNews, is
         )
     };
 
-    const newsSection = () => {
+    newsSection = () => {
+        const { news } = this.props;
         const INITIAL_NUM_TO_RENDER = news && news.length ? news.length : 1;
 
         return (
             <View>
                 <Text style={ aboutTitle }>NEWS</Text>
                 <FlatList
-                    data={ news }
-                    renderItem={ renderItem }
-                    keyExtractor={ keyExtractor }
+                    data={ this.props.news }
+                    renderItem={ this.renderItem }
+                    keyExtractor={ this.keyExtractor }
                     initialNumToRender={ INITIAL_NUM_TO_RENDER }
                     windowSize={ INITIAL_NUM_TO_RENDER }
                 />
-                { !isAllNewsFetched ? <TouchableOpacity onPress={ onShowMoreBtnPress }>
+                { !this.props.isAllNewsFetched ? <TouchableOpacity onPress={ this.onShowMoreBtnPress }>
                     <Text style={ showMore }>SHOW MORE</Text>
                 </TouchableOpacity> : null }
             </View>
         )
     };
 
-    const renderContent = () => {
-        return [titleHeading(singleSymbol), aboutSection(singleSymbol), newsSection(news)]
+    renderContent = () => {
+        const { singleSymbol, news } = this.props;
+
+        return [this.titleHeading(singleSymbol), this.aboutSection(singleSymbol), this.newsSection(news)]
     };
 
-    return (
-        <ScrollView style={ container }>
-            { isAllDataFetched() ? renderContent() : null }
-        </ScrollView>
-    )
-};
-
-SingleCurrency.navigationOptions = ({ navigation }) => ({
-    title: navigation.getParam('params')
-});
+    render() {
+        return (
+            <ScrollView style={ container }>
+                { this.isAllDataFetched() ? this.renderContent() : null }
+            </ScrollView>
+        )
+    }
+}
 
 const mapStateToProps = (store) => {
     return {
