@@ -1,8 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, FlatList } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 /* Components */
 import SymbolItem from '../../components/SymbolItem/SymbolItem';
 /* Actions */
@@ -15,71 +14,58 @@ import { styles } from './marketStyle';
 
 const { container, marketListWrapper } = styles;
 
-class Market extends PureComponent {
-    static propTypes = {
-        getUserData: PropTypes.func,
-        symbols: PropTypes.array,
-        getSingleSymbol: PropTypes.func,
-        userId: PropTypes.string,
-        toggleWatchlist: PropTypes.func,
-        userAccount: PropTypes.object
+const Market = ({ getUserData, getSingleSymbol, userId, navigation, toggleWatchlist, userAccount, symbols }) => {
+    const [query, setQuery] = useState('');
+
+    useEffect(() => {
+        getUserData();
+    }, []);
+
+    const pressSymbolName = (symbolId, displayName) => {
+        getSingleSymbol(userId, symbolId);
+        navigation.navigate('SingleSymbol', { params: displayName });
     };
 
-    state = {
-        query: ''
-    };
-
-    componentDidMount() {
-        this.props.getUserData();
-    }
-
-    pressSymbolName = (symbolId, displayName) => {
-        this.props.getSingleSymbol(this.props.userId, symbolId);
-        this.props.navigation.navigate('SingleSymbol', { params: displayName });
-    };
-
-    pressFavoriteIcon = (symbolId, isFavorite) => {
+    const pressFavoriteIcon = (symbolId, isFavorite) => {
         const following = !isFavorite;
-        this.props.toggleWatchlist(this.props.userAccount.id, symbolId, following);
+        toggleWatchlist(userAccount.id, symbolId, following);
     };
 
-    renderItem = ({ item }) => <SymbolItem
+    const renderItem = ({ item }) => <SymbolItem
         name={ item.displayName }
         value={ item.price.ask }
         isFavorite={ item.isFavorite }
-        onLabelPress={ this.pressSymbolName.bind(this, item.id, item.displayName) }
-        onIconPress={ this.pressFavoriteIcon.bind(this, item.id, item.isFavorite) }
+        onLabelPress={ pressSymbolName.bind(this, item.id, item.displayName) }
+        onIconPress={ pressFavoriteIcon.bind(this, item.id, item.isFavorite) }
     />;
 
-    onSearchList = query => this.setState({ query });
+    const onSearchList = query => setQuery(query);
 
-    getFilteredList = () => this.props.symbols.filter(
-        symbol => symbol.displayName.toLowerCase().includes(this.state.query.toLowerCase()));
+    const getFilteredList = () => symbols.filter(
+        symbol => symbol.displayName.toLowerCase().includes(query.toLowerCase()));
 
-    render() {
-        return (
-            <View style={ container }>
-                <Searchbar
-                    placeholder="Search here"
-                    autoCapitalize="none"
-                    autoCorrect={ false }
-                    onChangeText={ this.onSearchList }
-                    value={ this.state.query }
+    return (
+        <View style={ container }>
+            <Searchbar
+                placeholder="Search here"
+                autoCapitalize="none"
+                autoCorrect={ false }
+                onChangeText={ onSearchList }
+                value={ query }
+            />
+
+            <View style={ marketListWrapper }>
+                { symbols &&
+                <FlatList
+                    data={ getFilteredList() }
+                    renderItem={ renderItem }
+                    keyExtractor={ item => item.id }
                 />
-
-                <View style={ marketListWrapper }>
-                    { this.props.symbols &&
-                    <FlatList
-                        data={ this.getFilteredList() }
-                        renderItem={ this.renderItem }
-                        keyExtractor={ item => item.id }
-                    />
-                    }
-                </View>
+                }
             </View>
-        )
-    }
-}
+        </View>
+    )
+};
 
 const mapStateToProps = (store) => {
     return {
