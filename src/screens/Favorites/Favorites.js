@@ -1,7 +1,6 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 /* Actions */
 import { getSingleSymbolAction, toggleWatchlistAction } from '../Market/marketActions';
 /* Components */
@@ -11,50 +10,38 @@ import { styles } from './favoritesStyle';
 
 const { container, favoritesListWrapper } = styles;
 
-class Favorites extends PureComponent {
-    static propTypes = {
-        watchList: PropTypes.array,
-        getSingleSymbol: PropTypes.func,
-        userId: PropTypes.string,
-        toggleWatchlist: PropTypes.func,
-        userAccount: PropTypes.object
+const Favorites = ({ getSingleSymbol, userId, toggleWatchlist, userAccount, watchList, navigation }) => {
+    const pressSymbolName = (symbolId, displayName) => {
+        getSingleSymbol(userId, symbolId);
+        navigation.navigate('SingleSymbol', { params: displayName });
     };
 
-    keyExtractor = (item, index) => index.toString();
-
-    pressSymbolName = (symbolId, displayName) => {
-        this.props.getSingleSymbol(this.props.userId, symbolId);
-        this.props.navigation.navigate('SingleSymbol', { params: displayName });
+    const pressFavoriteIcon = (symbolId) => {
+        toggleWatchlist(userAccount.id, symbolId, false);
     };
 
-    pressFavoriteIcon = (symbolId) => {
-        this.props.toggleWatchlist(this.props.userAccount.id, symbolId, false);
-    };
-
-    renderItem = ({ item }) => <SymbolItem
+    const renderItem = ({ item }) => <SymbolItem
         name={ item.displayName }
         value={ item.price.ask }
         isFavorite
-        onLabelPress={ this.pressSymbolName.bind(this, item.id, item.displayName) }
-        onIconPress={ this.pressFavoriteIcon.bind(this, item.id) }
+        onLabelPress={ pressSymbolName.bind(this, item.id, item.displayName) }
+        onIconPress={ pressFavoriteIcon.bind(this, item.id) }
     />;
 
-    render() {
-        return (
-            <View style={ container }>
-                <View style={ favoritesListWrapper }>
-                    { this.props.watchList &&
-                    <FlatList
-                        data={ this.props.watchList }
-                        renderItem={ this.renderItem }
-                        keyExtractor={ this.keyExtractor }
-                    />
-                    }
-                </View>
+    return (
+        <View style={ container }>
+            <View style={ favoritesListWrapper }>
+                { watchList &&
+                <FlatList
+                    data={ watchList }
+                    renderItem={ renderItem }
+                    keyExtractor={ item => item.id }
+                />
+                }
             </View>
-        )
-    }
-}
+        </View>
+    )
+};
 
 const mapStateToProps = (store) => {
     return {

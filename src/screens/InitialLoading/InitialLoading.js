@@ -1,26 +1,24 @@
-import React, { PureComponent } from 'react';
+import React, { useEffect } from 'react';
 /* Components */
 import Loader from '../../components/Loader/Loader';
 /* Services */
 import AsyncStorageService from "../../services/asyncStorageService";
 
-class InitialLoading extends PureComponent {
-    componentDidMount() {
-        this.navigateToAppropriateScreen();
-    };
+const InitialLoading = ({ navigation }) => {
+    useEffect(() => {
+        navigateToAppropriateScreen();
+    }, []);
 
-    navigateToAppropriateScreen = async () => {
+    const navigateToAppropriateScreen = async () => {
         const accessToken = await AsyncStorageService.getAccessToken();
         if (accessToken) {
-            this.props.navigation.navigate('App');
+            navigation.navigate('App');
         } else {
-            this.props.navigation.navigate('Login');
+            navigation.navigate('Login');
         }
     };
 
-    render() {
-        return <Loader/>;
-    }
-}
+    return <Loader/>;
+};
 
 export default InitialLoading;
