@@ -1,7 +1,6 @@
-import React, { PureComponent } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Button, Text, TextInput, HelperText } from 'react-native-paper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 /* Actions */
@@ -14,73 +13,68 @@ import { styles } from './loginStyle';
 const { container, headerTitle, inputStyle, loginButton, textInputStyle, loginErrorStyle } = styles;
 const resetScrollToCoords = { x: 0, y: 0 };
 
-class Login extends PureComponent {
-    static propTypes = {
-        tryLogin: PropTypes.func,
-        errorMessage: PropTypes.string
-    };
+const Login = ({ errorMessage, isLoginLoading, tryLogin }) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [touchedEmail, setTouchedEmail] = useState(false);
+    const [touchedPassword, setTouchedPassword] = useState(false);
 
-    state = {
-        password: '',
-        email: '',
-        touched: {
-            password: false,
-            email: false,
-        },
-    };
+    const onChangeEmail = email => setEmail(email);
 
-    onChangeEmail = email => this.setState({ email });
+    const onChangePassword = password => setPassword(password);
 
-    onChangePassword = password => this.setState({ password });
-
-    onSubmit = () => {
-        const isFormValid = this.isFormValid();
+    const onSubmit = () => {
         if (isFormValid) {
             const loginParams = {
-                email: this.state.email,
-                password: this.state.password
+                email: email,
+                password: password
             };
-            this.props.tryLogin(loginParams);
+            tryLogin(loginParams);
         }
     };
 
-    handleBlur = field => () => {
-        this.setState(prevState => ({
-            touched: { ...prevState.touched, [field]: true },
-        }));
+    const handleBlur = field => () => {
+        switch (field) {
+            case 'email':
+                setTouchedEmail(true);
+                break;
+            case 'password':
+                setTouchedPassword(true);
+                break;
+            default:
+                return false;
+        }
     };
 
-    showEmailValidationMsg = email => this.state.touched.email
-        && (!NO_SPACE_REGEX.test(email) || !EMAIL_VALIDATION_REGEX.test(email));
+    const showEmailValidationMsg = email => touchedEmail &&
+        (!NO_SPACE_REGEX.test(email) || !EMAIL_VALIDATION_REGEX.test(email));
 
-    showPasswordValidationMsg = password => this.state.touched.password && !password.length > 0;
+    const showPasswordValidationMsg = password => touchedPassword && !password.length > 0;
 
-    isFormValid = () => {
-        const { password, email } = this.state;
-
-        const emailValidation = this.showEmailValidationMsg(email);
-        const passwordValidation = this.showPasswordValidationMsg(password);
+    const isFormValid = () => {
+        const emailValidation = showEmailValidationMsg(email);
+        const passwordValidation = showPasswordValidationMsg(password);
 
         return (!emailValidation && email.length && !passwordValidation && password.length);
     };
 
-    validationMessage = type => {
+    const validationMessage = type => {
         let message;
         switch (type) {
             case 'email':
-                if (this.state.email.length === 0) {
+                if (email.length === 0) {
                     message = 'Email is required';
                 } else {
                     message = 'Email is invalid';
                 }
                 break;
             case 'password':
-                if (this.state.password.length === 0) {
+                if (password.length === 0) {
                     message = 'Password is required';
                 }
                 break;
             case 'loginError':
-                message = this.props.errorMessage;
+                message = errorMessage;
                 break;
             default:
                 return message;
@@ -88,72 +82,69 @@ class Login extends PureComponent {
         return message;
     };
 
-    render() {
-        const { email, password } = this.state;
-
-        return (
-            <KeyboardAwareScrollView
-                resetScrollToCoords={ resetScrollToCoords }
-            >
-                <View style={ container }>
-                    <Text style={ headerTitle }>Welcome</Text>
-                    <View>
-                        <View style={ inputStyle }>
-                            <TextInput
-                                label="Email"
-                                value={ email }
-                                onChangeText={ this.onChangeEmail }
-                                onBlur={ this.handleBlur('email') }
-                                autoCapitalize="none"
-                                style={ textInputStyle }
-                            />
-                            <HelperText
-                                type="error"
-                                visible={ this.showEmailValidationMsg(email) }
-                            >
-                                { this.validationMessage('email') }
-                            </HelperText>
-                        </View>
-                        <View style={ inputStyle }>
-                            <TextInput
-                                label="Password"
-                                value={ password }
-                                onChangeText={ this.onChangePassword }
-                                onBlur={ this.handleBlur('password') }
-                                secureTextEntry
-                                autoCapitalize="none"
-                                style={ textInputStyle }
-                            />
-                            <HelperText
-                                type="error"
-                                visible={ this.showPasswordValidationMsg(password) }
-                            >
-                                { this.validationMessage('password') }
-                            </HelperText>
-                        </View>
-                    </View>
-                    <View>
+    return (
+        <KeyboardAwareScrollView
+            resetScrollToCoords={ resetScrollToCoords }
+        >
+            <View style={ container }>
+                <Text style={ headerTitle }>Welcome</Text>
+                <View>
+                    <View style={ inputStyle }>
+                        <TextInput
+                            label="Email"
+                            value={ email }
+                            onChangeText={ onChangeEmail }
+                            onBlur={ handleBlur('email') }
+                            autoCapitalize="none"
+                            style={ textInputStyle }
+                        />
                         <HelperText
                             type="error"
-                            visible={ this.props.errorMessage }
-                            style={ loginErrorStyle }
+                            visible={ showEmailValidationMsg(email) }
                         >
-                            { this.validationMessage('loginError') }
+                            { validationMessage('email') }
                         </HelperText>
-                        <Button
-                            contentStyle={ loginButton }
-                            mode="contained"
-                            onPress={ this.onSubmit }
-                            loading={ this.props.isLoginLoading }
+                    </View>
+                    <View style={ inputStyle }>
+                        <TextInput
+                            label="Password"
+                            value={ password }
+                            onChangeText={ onChangePassword }
+                            onBlur={ handleBlur('password') }
+                            secureTextEntry
+                            autoCapitalize="none"
+                            style={ textInputStyle }
+                        />
+                        <HelperText
+                            type="error"
+                            visible={ showPasswordValidationMsg(password) }
                         >
-                            Sign In
-                        </Button>
+                            { validationMessage('password') }
+                        </HelperText>
                     </View>
                 </View>
-            </KeyboardAwareScrollView>
-        )
-    }
-}
+                <View>
+                    <HelperText
+                        type="error"
+                        visible={ errorMessage }
+                        style={ loginErrorStyle }
+                    >
+                        { validationMessage('loginError') }
+                    </HelperText>
+                    <Button
+                        contentStyle={ loginButton }
+                        mode="contained"
+                        onPress={ onSubmit }
+                        loading={ isLoginLoading }
+                    >
+                        Sign In
+                    </Button>
+                </View>
+            </View>
+        </KeyboardAwareScrollView>
+    )
+};
+
 
 const mapStateToProps = (store) => {
     return {
