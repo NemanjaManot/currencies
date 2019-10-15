@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react';
+import React, { Fragment } from 'react';
 import { SafeAreaView } from 'react-native';
 import { Provider } from 'react-redux';
 import { Provider as PaperProvider } from 'react-native-paper';
@@ -15,24 +15,22 @@ import { theme } from './assets/theme';
 
 const { globalContainer } = globalStyles;
 
-class App extends Component {
-    render() {
-        return (
-            <PaperProvider theme={ theme }>
-                <Provider store={ store }>
-                    <Fragment>
-                        <SafeAreaView style={ globalContainer }>
-                            <Router
-                                ref={ navigatorRef => {
-                                    NavigationService.setTopLevelNavigator(navigatorRef);
-                                } }
-                            />
-                        </SafeAreaView>
-                    </Fragment>
-                </Provider>
-            </PaperProvider>
-        )
-    }
-}
+const App = () => {
+    return (
+        <PaperProvider theme={ theme }>
+            <Provider store={ store }>
+                <Fragment>
+                    <SafeAreaView style={ globalContainer }>
+                        <Router
+                            ref={ navigatorRef => {
+                                NavigationService.setTopLevelNavigator(navigatorRef);
+                            } }
+                        />
+                    </SafeAreaView>
+                </Fragment>
+            </Provider>
+        </PaperProvider>
+    )
+};
 
 export default App;
