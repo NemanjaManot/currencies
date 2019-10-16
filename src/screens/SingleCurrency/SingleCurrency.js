@@ -48,7 +48,7 @@ const SingleCurrency = ({ singleSymbol, news, resetNews, getNews, isAllNewsFetch
     const titleHeading = (symbol) => {
         if (symbol && symbol.price && symbol.price.ask) {
             return (
-                <View>
+                <View key={ symbol.id }>
                     <Text style={ mainHeadingStyle }>$ { symbol.price.ask }</Text>
                 </View>
             );
@@ -59,7 +59,7 @@ const SingleCurrency = ({ singleSymbol, news, resetNews, getNews, isAllNewsFetch
         const { baseInstrument } = symbol;
         if (baseInstrument && baseInstrument.description) {
             return (
-                <View style={ aboutWrapper }>
+                <View key={ baseInstrument.id } style={ aboutWrapper }>
                     <Text style={ aboutTitle }>ABOUT</Text>
                     <Text style={ aboutDesc }>{ baseInstrument.description }</Text>
                 </View>
@@ -76,7 +76,7 @@ const SingleCurrency = ({ singleSymbol, news, resetNews, getNews, isAllNewsFetch
         getNews(newOffset);
     };
 
-    const keyExtractor = (item, index) => index.toString();
+    const keyExtractor = item => item.id.toString();
 
     const renderItem = ({ item }) => {
         return (
@@ -91,7 +91,7 @@ const SingleCurrency = ({ singleSymbol, news, resetNews, getNews, isAllNewsFetch
         const INITIAL_NUM_TO_RENDER = news && news.length ? news.length : 1;
 
         return (
-            <View>
+            <View key="newsSection">
                 <Text style={ aboutTitle }>NEWS</Text>
                 <FlatList
                     data={ news }
