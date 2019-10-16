@@ -46,11 +46,11 @@ export default function marketReducer(state = initialState, action) {
         case MARKET.TOGGLE_WATCHLIST_SUCCESS:
             let updatedWatchList = [];
             if (action.isFollowing) {
-                updatedWatchList = state.watchList.concat(action.toggledItem)
+                updatedWatchList = state.watchList.concat(action.toggledItem);
             } else {
                 updatedWatchList = state.watchList.filter(item => {
-                    return item.id !== action.toggledItem.id
-                })
+                    return item.id !== action.toggledItem.id;
+                });
             }
 
             return {

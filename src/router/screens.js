@@ -8,7 +8,7 @@ import Favorites from '../screens/Favorites/Favorites';
 import { theme } from '../assets/theme';
 
 export const LoginScreen = createStackNavigator(
-    { Login: Login },
+    { Login },
     { headerMode: 'none' },
 );
 

@@ -11,7 +11,7 @@ const Loader = () => {
         <View style={ container }>
             <ActivityIndicator/>
         </View>
-    )
+    );
 };
 
 export default Loader;

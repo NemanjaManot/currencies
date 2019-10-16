@@ -24,11 +24,11 @@ const {
     showMore
 } = styles;
 
-const SingleCurrency = ({ navigation, singleSymbol, news, resetNews, getNews, isAllNewsFetched }) => {
+const SingleCurrency = ({ singleSymbol, news, resetNews, getNews, isAllNewsFetched }) => {
     useEffect(() => {
         return () => {
             resetNews();
-        }
+        };
     }, []);
 
     const isAllDataFetched = () => {
@@ -41,18 +41,20 @@ const SingleCurrency = ({ navigation, singleSymbol, news, resetNews, getNews, is
                 <View>
                     <Text style={ mainHeadingStyle }>$ { symbol.price.ask }</Text>
                 </View>
-            )
+            );
         }
     };
 
     const aboutSection = (symbol) => {
-        if (symbol.baseInstrument && symbol.baseInstrument.description)
+        const { baseInstrument } = symbol;
+        if (baseInstrument && baseInstrument.description) {
             return (
                 <View style={ aboutWrapper }>
                     <Text style={ aboutTitle }>ABOUT</Text>
-                    <Text style={ aboutDesc }>{ symbol.baseInstrument.description }</Text>
+                    <Text style={ aboutDesc }>{ baseInstrument.description }</Text>
                 </View>
-            )
+            );
+        }
     };
 
     const onShowMoreBtnPress = () => {
@@ -72,7 +74,7 @@ const SingleCurrency = ({ navigation, singleSymbol, news, resetNews, getNews, is
                 <Text style={ newsTitleStyle }>{ item.title }</Text>
                 <Text style={ newsDateStyle }>{ moment(item.published).format("DD MMM YYYY") }</Text>
             </View>
-        )
+        );
     };
 
     const newsSection = () => {
@@ -92,18 +94,18 @@ const SingleCurrency = ({ navigation, singleSymbol, news, resetNews, getNews, is
                     <Text style={ showMore }>SHOW MORE</Text>
                 </TouchableOpacity> : null }
             </View>
-        )
+        );
     };
 
     const renderContent = () => {
-        return [titleHeading(singleSymbol), aboutSection(singleSymbol), newsSection(news)]
+        return [titleHeading(singleSymbol), aboutSection(singleSymbol), newsSection(news)];
     };
 
     return (
         <ScrollView style={ container }>
             { isAllDataFetched() ? renderContent() : null }
         </ScrollView>
-    )
+    );
 };
 
 SingleCurrency.navigationOptions = ({ navigation }) => ({

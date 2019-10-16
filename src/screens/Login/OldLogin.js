@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Button, Text, TextInput, HelperText } from 'react-native-paper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 /* Actions */
@@ -15,11 +14,6 @@ const { container, headerTitle, inputStyle, loginButton, textInputStyle, loginEr
 const resetScrollToCoords = { x: 0, y: 0 };
 
 class OldLogin extends PureComponent {
-    static propTypes = {
-        tryLogin: PropTypes.func,
-        errorMessage: PropTypes.string
-    };
-
     state = {
         password: '',
         email: '',
@@ -50,8 +44,8 @@ class OldLogin extends PureComponent {
         }));
     };
 
-    showEmailValidationMsg = email => this.state.touched.email &&
-        (!NO_SPACE_REGEX.test(email) || !EMAIL_VALIDATION_REGEX.test(email));
+    showEmailValidationMsg = email => this.state.touched.email
+        && (!NO_SPACE_REGEX.test(email) || !EMAIL_VALIDATION_REGEX.test(email));
 
     showPasswordValidationMsg = password => this.state.touched.password && !password.length > 0;
 
@@ -151,7 +145,7 @@ class OldLogin extends PureComponent {
                     </View>
                 </View>
             </KeyboardAwareScrollView>
-        )
+        );
     }
 }
 

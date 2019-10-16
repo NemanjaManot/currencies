@@ -11,7 +11,7 @@ const FooterTabIcon = (icon, color) => {
             color={ color }
             size={ 25 }
         />
-    )
+    );
 };
 
 export default FooterTabIcon;

@@ -3,7 +3,6 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 /* Icon */
 import FooterTabIcon from '../components/FooterTabIcon/FooterTabIcon';
 /* Screens */
-import Favorites from '../screens/Favorites/Favorites';
 import InitialLoading from '../screens/InitialLoading/InitialLoading';
 /* Stack navigator screens */
 import { LoginScreen, FavoritesScreen, MarketScreen } from './screens';
@@ -24,7 +23,7 @@ const Navigator = createMaterialBottomTabNavigator(
                     tabBarLabel: 'Market Search',
                     activeTintColor: theme.colors.primary,
                     tabBarVisible
-                }
+                };
             }
         },
         Watchlist: {

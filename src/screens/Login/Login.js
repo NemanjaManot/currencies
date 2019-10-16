@@ -26,8 +26,8 @@ const Login = ({ errorMessage, isLoginLoading, tryLogin }) => {
     const onSubmit = () => {
         if (isFormValid) {
             const loginParams = {
-                email: email,
-                password: password
+                email,
+                password
             };
             tryLogin(loginParams);
         }
@@ -46,8 +46,8 @@ const Login = ({ errorMessage, isLoginLoading, tryLogin }) => {
         }
     };
 
-    const showEmailValidationMsg = email => touchedEmail &&
-        (!NO_SPACE_REGEX.test(email) || !EMAIL_VALIDATION_REGEX.test(email));
+    const showEmailValidationMsg = email => touchedEmail && (
+        !NO_SPACE_REGEX.test(email) || !EMAIL_VALIDATION_REGEX.test(email));
 
     const showPasswordValidationMsg = password => touchedPassword && !password.length > 0;
 
@@ -142,7 +142,7 @@ const Login = ({ errorMessage, isLoginLoading, tryLogin }) => {
                 </View>
             </View>
         </KeyboardAwareScrollView>
-    )
+    );
 };
 
 

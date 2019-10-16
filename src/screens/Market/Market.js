@@ -42,13 +42,14 @@ const Market = ({ getUserData, getSingleSymbol, userId, navigation, toggleWatchl
                 onLabelPress={ pressSymbolName.bind(this, id, displayName) }
                 onIconPress={ pressFavoriteIcon.bind(this, id, isFavorite) }
             />
-        )
+        );
     };
 
     const onSearchList = query => setQuery(query);
 
     const getFilteredList = () => symbols.filter(
-        symbol => symbol.displayName.toLowerCase().includes(query.toLowerCase()));
+        symbol => symbol.displayName.toLowerCase().includes(query.toLowerCase())
+    );
 
     return (
         <View style={ container }>
@@ -61,16 +62,14 @@ const Market = ({ getUserData, getSingleSymbol, userId, navigation, toggleWatchl
             />
 
             <View style={ marketListWrapper }>
-                { symbols &&
-                <FlatList
+                { symbols && <FlatList
                     data={ getFilteredList() }
                     renderItem={ renderItem }
                     keyExtractor={ item => item.id }
-                />
-                }
+                /> }
             </View>
         </View>
-    )
+    );
 };
 
 const mapStateToProps = (store) => {

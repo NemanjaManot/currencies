@@ -23,7 +23,7 @@ const Favorites = ({ getSingleSymbol, userId, toggleWatchlist, userAccount, watc
     const renderItem = ({ item }) => {
         const { price, displayName } = item;
         const { ask } = price;
-        
+
         return (
             <SymbolItem
                 name={ displayName }
@@ -32,22 +32,20 @@ const Favorites = ({ getSingleSymbol, userId, toggleWatchlist, userAccount, watc
                 onLabelPress={ pressSymbolName.bind(this, item.id, item.displayName) }
                 onIconPress={ pressFavoriteIcon.bind(this, item.id) }
             />
-        )
+        );
     };
 
     return (
         <View style={ container }>
             <View style={ favoritesListWrapper }>
-                { watchList &&
-                <FlatList
+                { watchList && <FlatList
                     data={ watchList }
                     renderItem={ renderItem }
                     keyExtractor={ item => item.id }
-                />
-                }
+                /> }
             </View>
         </View>
-    )
+    );
 };
 
 const mapStateToProps = (store) => {

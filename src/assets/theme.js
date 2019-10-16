@@ -2,7 +2,6 @@ import { DefaultTheme } from 'react-native-paper';
 
 const turquoise = '#088B7E';
 const white = '#ffffff';
-const red = '#FF0C16';
 const gray = '#666666';
 const pink = '#E6327A';
 const black = '#000000';
