@@ -46,5 +46,5 @@ export const styles = StyleSheet.create({
         paddingVertical: 17,
         color: theme.colors.primary,
         textAlign: 'center'
-    },
+    }
 });

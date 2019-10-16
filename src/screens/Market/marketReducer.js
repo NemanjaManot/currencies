@@ -6,8 +6,7 @@ const initialState = {
     singleSymbol: null,
     chartData: null,
     news: [],
-    isAllNewsFetched: false,
-    // toggledItem: null
+    isAllNewsFetched: false
 };
 
 export default function marketReducer(state = initialState, action) {
@@ -56,7 +55,7 @@ export default function marketReducer(state = initialState, action) {
 
             return {
                 ...state,
-                watchList: updatedWatchList,
+                watchList: updatedWatchList
             };
         default:
             return state;

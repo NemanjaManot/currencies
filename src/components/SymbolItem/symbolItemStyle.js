@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 10,
         alignItems: 'center',
         borderBottomColor: Colors.grey300,
-        borderBottomWidth: 1,
+        borderBottomWidth: 1
     },
     rightBoxStyle: {
         flexDirection: 'row',
@@ -27,5 +27,5 @@ export const styles = StyleSheet.create({
     labelStyle: {
         color: theme.colors.black,
         fontSize: fontSizeL
-    },
+    }
 });

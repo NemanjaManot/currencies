@@ -25,7 +25,7 @@ const Navigator = createMaterialBottomTabNavigator(
                     activeTintColor: theme.colors.primary,
                     tabBarVisible
                 }
-            },
+            }
         },
         Watchlist: {
             screen: FavoritesScreen,
@@ -33,8 +33,8 @@ const Navigator = createMaterialBottomTabNavigator(
                 tabBarIcon: (props) => FooterTabIcon('favorite', props.tintColor),
                 tabBarLabel: 'Favorites',
                 activeTintColor: theme.colors.primary
-            }),
-        },
+            })
+        }
     },
     {
         activeColor: theme.colors.primary,
@@ -47,7 +47,7 @@ const Router = createAppContainer(
     createSwitchNavigator({
         Initial: InitialLoading,
         Login: LoginScreen,
-        App: Navigator,
+        App: Navigator
     }),
 );
 

@@ -25,8 +25,8 @@ class OldLogin extends PureComponent {
         email: '',
         touched: {
             password: false,
-            email: false,
-        },
+            email: false
+        }
     };
 
     onChangeEmail = email => this.setState({ email });
@@ -46,12 +46,12 @@ class OldLogin extends PureComponent {
 
     handleBlur = field => () => {
         this.setState(prevState => ({
-            touched: { ...prevState.touched, [field]: true },
+            touched: { ...prevState.touched, [field]: true }
         }));
     };
 
-    showEmailValidationMsg = email => this.state.touched.email
-        && (!NO_SPACE_REGEX.test(email) || !EMAIL_VALIDATION_REGEX.test(email));
+    showEmailValidationMsg = email => this.state.touched.email &&
+        (!NO_SPACE_REGEX.test(email) || !EMAIL_VALIDATION_REGEX.test(email));
 
     showPasswordValidationMsg = password => this.state.touched.password && !password.length > 0;
 

@@ -9,12 +9,12 @@ class LoginService {
             grant_type: 'password',
             client_id: CLIENT_ID,
             username: email,
-            password,
+            password
         };
         return ApiHelper.post('oauth/token/', qs.stringify(data), {
             headers: {
-                noAuth: true,
-            },
+                noAuth: true
+            }
         }).then(response => ({ response })).catch(error => ({ error }));
     }
 }

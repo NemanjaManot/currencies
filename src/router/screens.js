@@ -18,20 +18,20 @@ export const MarketScreen = createStackNavigator({
         navigationOptions: () => ({
             title: 'Market Search',
             headerStyle: {
-                backgroundColor: theme.colors.primary,
+                backgroundColor: theme.colors.primary
             },
             headerTintColor: theme.colors.background
-        }),
+        })
     },
     SingleSymbol: {
         screen: SingleCurrency,
         navigationOptions: () => ({
             headerStyle: {
-                backgroundColor: theme.colors.primary,
+                backgroundColor: theme.colors.primary
             },
             headerTintColor: theme.colors.background
-        }),
-    },
+        })
+    }
 });
 
 export const FavoritesScreen = createStackNavigator({
@@ -40,9 +40,9 @@ export const FavoritesScreen = createStackNavigator({
         navigationOptions: () => ({
             title: 'Favorites',
             headerStyle: {
-                backgroundColor: theme.colors.primary,
+                backgroundColor: theme.colors.primary
             },
             headerTintColor: theme.colors.background
-        }),
-    },
+        })
+    }
 });

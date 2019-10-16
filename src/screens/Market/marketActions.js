@@ -19,5 +19,5 @@ export const getNewsAction = (offset) => ({
 });
 
 export const resetNewsAction = () => ({
-    type: MARKET.RESET_NEWS,
+    type: MARKET.RESET_NEWS
 });
