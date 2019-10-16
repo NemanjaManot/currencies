@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
@@ -10,7 +11,16 @@ import { styles } from './favoritesStyle';
 
 const { container, favoritesListWrapper } = styles;
 
-const Favorites = ({ getSingleSymbol, userId, toggleWatchlist, userAccount, watchList, navigation }) => {
+type Props = {
+    getSingleSymbol: Function,
+    userId: number,
+    toggleWatchlist: Function,
+    userAccount: Object,
+    watchList: Array<Object>,
+    navigation: Object
+};
+
+const Favorites = ({ getSingleSymbol, userId, toggleWatchlist, userAccount, watchList, navigation }: Props) => {
     const pressSymbolName = (symbolId, displayName) => {
         getSingleSymbol(userId, symbolId);
         navigation.navigate('SingleSymbol', { params: displayName });
