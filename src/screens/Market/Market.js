@@ -1,3 +1,4 @@
+// @flow
 import React, { useEffect, useState } from 'react';
 import { View, FlatList } from 'react-native';
 import { Searchbar } from 'react-native-paper';
@@ -14,7 +15,17 @@ import { styles } from './marketStyle';
 
 const { container, marketListWrapper } = styles;
 
-const Market = ({ getUserData, getSingleSymbol, userId, navigation, toggleWatchlist, userAccount, symbols }) => {
+type Props = {
+    getUserData: Function,
+    getSingleSymbol: Function,
+    userId: number,
+    toggleWatchlist: Function,
+    userAccount: Object,
+    navigation: Object,
+    symbols: Array<Object>
+};
+
+const Market = ({ getUserData, getSingleSymbol, userId, navigation, toggleWatchlist, userAccount, symbols }: Props) => {
     const [query, setQuery] = useState('');
 
     useEffect(() => {
