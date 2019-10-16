@@ -50,6 +50,8 @@ $ npm install
 
 ## Running
 
+#### Run application
+
 To run application for Android:
 ```
 $ npm run android
@@ -58,6 +60,11 @@ $ npm run android
 Make sure you have **Android Emulator** up & running.
 
 Note: Application still not tested for iOS devices.
+
+#### Run ESLint
+```
+$ npm run eslint
+```
 
 ## Tech Stack
 
