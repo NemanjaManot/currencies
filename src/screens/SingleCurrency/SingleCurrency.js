@@ -1,3 +1,4 @@
+// @flow
 import React, { useEffect } from 'react';
 import { View, Text, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
@@ -24,7 +25,16 @@ const {
     showMore
 } = styles;
 
-const SingleCurrency = ({ singleSymbol, news, resetNews, getNews, isAllNewsFetched }) => {
+type Props = {
+    resetNews: Function,
+    getNews: Function,
+    news: Array<Object>,
+    singleSymbol: Object,
+    getNews: Function,
+    isAllNewsFetched: boolean
+};
+
+const SingleCurrency = ({ singleSymbol, news, resetNews, getNews, isAllNewsFetched }: Props) => {
     useEffect(() => {
         return () => {
             resetNews();
@@ -36,7 +46,7 @@ const SingleCurrency = ({ singleSymbol, news, resetNews, getNews, isAllNewsFetch
     };
 
     const titleHeading = (symbol) => {
-        if (symbol.price && symbol.price.ask) {
+        if (symbol && symbol.price && symbol.price.ask) {
             return (
                 <View>
                     <Text style={ mainHeadingStyle }>$ { symbol.price.ask }</Text>
@@ -77,7 +87,7 @@ const SingleCurrency = ({ singleSymbol, news, resetNews, getNews, isAllNewsFetch
         );
     };
 
-    const newsSection = () => {
+    const newsSection = (news) => {
         const INITIAL_NUM_TO_RENDER = news && news.length ? news.length : 1;
 
         return (
