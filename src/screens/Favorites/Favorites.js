@@ -20,27 +20,32 @@ const Favorites = ({ getSingleSymbol, userId, toggleWatchlist, userAccount, watc
         toggleWatchlist(userAccount.id, symbolId, false);
     };
 
-    const renderItem = ({ item }) => <SymbolItem
-        name={ item.displayName }
-        value={ item.price.ask }
-        isFavorite
-        onLabelPress={ pressSymbolName.bind(this, item.id, item.displayName) }
-        onIconPress={ pressFavoriteIcon.bind(this, item.id) }
-    />;
+    const renderItem = ({ item }) => {
+        const { price, displayName } = item;
+        const { ask } = price;
+
+        return (
+            <SymbolItem
+                name={ displayName }
+                value={ ask }
+                isFavorite
+                onLabelPress={ pressSymbolName.bind(this, item.id, item.displayName) }
+                onIconPress={ pressFavoriteIcon.bind(this, item.id) }
+            />
+        );
+    };
 
     return (
         <View style={ container }>
             <View style={ favoritesListWrapper }>
-                { watchList &&
-                <FlatList
+                { watchList && <FlatList
                     data={ watchList }
                     renderItem={ renderItem }
                     keyExtractor={ item => item.id }
-                />
-                }
+                /> }
             </View>
         </View>
-    )
+    );
 };
 
 const mapStateToProps = (store) => {
@@ -54,7 +59,8 @@ const mapStateToProps = (store) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getSingleSymbol: (userId, symbolId) => dispatch(getSingleSymbolAction(userId, symbolId)),
-        toggleWatchlist: (accountId, symbolId, isFollowing) => dispatch(toggleWatchlistAction(accountId, symbolId, isFollowing))
+        toggleWatchlist: (accountId, symbolId, isFollowing) =>
+            dispatch(toggleWatchlistAction(accountId, symbolId, isFollowing))
     };
 };
 

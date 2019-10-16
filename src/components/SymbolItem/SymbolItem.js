@@ -30,7 +30,7 @@ const SymbolItem = ({ name, isFavorite, value, onLabelPress, onIconPress }) => {
                 </TouchableOpacity>
             </View>
         </View>
-    )
+    );
 };
 
 export default SymbolItem;

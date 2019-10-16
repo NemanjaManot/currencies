@@ -9,5 +9,5 @@ export default function* rootSaga() {
         loginSaga(),
         userSaga(),
         marketSaga()
-    ])
+    ]);
 };

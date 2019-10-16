@@ -12,13 +12,13 @@ export default function loginReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 errorMessage: action.errorMessage
-            }
+            };
         }
         case LOGIN.LOADING: {
             return {
                 ...state,
                 isLoginLoading: action.isLoginLoading
-            }
+            };
         }
         default:
             return state;

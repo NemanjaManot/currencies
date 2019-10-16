@@ -11,7 +11,7 @@ export function* getSymbols(action) {
         yield put({
             type: MARKET.SET_MARKET_SYMBOLS,
             symbols: response.data
-        })
+        });
     }
 }
 
@@ -22,7 +22,7 @@ export function* getWatchlist(action) {
         yield put({
             type: MARKET.SET_WATCHLIST,
             watchList: response.data
-        })
+        });
     }
 }
 
@@ -37,7 +37,7 @@ export function* getSingleSymbol(action) {
         yield put({
             type: MARKET.GET_NEWS,
             offset: 0
-        })
+        });
     }
 }
 
@@ -50,7 +50,7 @@ export function* getNews(action) {
             type: MARKET.SET_NEWS,
             news: response.data.results,
             isAllNewsFetched
-        })
+        });
     }
 }
 
@@ -62,7 +62,7 @@ export function* toggleWatchlist(action) {
             type: MARKET.TOGGLE_WATCHLIST_SUCCESS,
             toggledItem: response.data,
             isFollowing: action.isFollowing
-        })
+        });
     }
 }
 

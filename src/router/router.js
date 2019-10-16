@@ -3,7 +3,6 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 /* Icon */
 import FooterTabIcon from '../components/FooterTabIcon/FooterTabIcon';
 /* Screens */
-import Favorites from '../screens/Favorites/Favorites';
 import InitialLoading from '../screens/InitialLoading/InitialLoading';
 /* Stack navigator screens */
 import { LoginScreen, FavoritesScreen, MarketScreen } from './screens';
@@ -24,8 +23,8 @@ const Navigator = createMaterialBottomTabNavigator(
                     tabBarLabel: 'Market Search',
                     activeTintColor: theme.colors.primary,
                     tabBarVisible
-                }
-            },
+                };
+            }
         },
         Watchlist: {
             screen: FavoritesScreen,
@@ -33,8 +32,8 @@ const Navigator = createMaterialBottomTabNavigator(
                 tabBarIcon: (props) => FooterTabIcon('favorite', props.tintColor),
                 tabBarLabel: 'Favorites',
                 activeTintColor: theme.colors.primary
-            }),
-        },
+            })
+        }
     },
     {
         activeColor: theme.colors.primary,
@@ -47,7 +46,7 @@ const Router = createAppContainer(
     createSwitchNavigator({
         Initial: InitialLoading,
         Login: LoginScreen,
-        App: Navigator,
+        App: Navigator
     }),
 );
 

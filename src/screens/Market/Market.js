@@ -31,18 +31,25 @@ const Market = ({ getUserData, getSingleSymbol, userId, navigation, toggleWatchl
         toggleWatchlist(userAccount.id, symbolId, following);
     };
 
-    const renderItem = ({ item }) => <SymbolItem
-        name={ item.displayName }
-        value={ item.price.ask }
-        isFavorite={ item.isFavorite }
-        onLabelPress={ pressSymbolName.bind(this, item.id, item.displayName) }
-        onIconPress={ pressFavoriteIcon.bind(this, item.id, item.isFavorite) }
-    />;
+    const renderItem = ({ item }) => {
+        const { displayName, price, isFavorite, id } = item;
+        const { ask } = price;
+        return (
+            <SymbolItem
+                name={ displayName }
+                value={ ask }
+                isFavorite={ isFavorite }
+                onLabelPress={ pressSymbolName.bind(this, id, displayName) }
+                onIconPress={ pressFavoriteIcon.bind(this, id, isFavorite) }
+            />
+        );
+    };
 
     const onSearchList = query => setQuery(query);
 
     const getFilteredList = () => symbols.filter(
-        symbol => symbol.displayName.toLowerCase().includes(query.toLowerCase()));
+        symbol => symbol.displayName.toLowerCase().includes(query.toLowerCase())
+    );
 
     return (
         <View style={ container }>
@@ -55,16 +62,14 @@ const Market = ({ getUserData, getSingleSymbol, userId, navigation, toggleWatchl
             />
 
             <View style={ marketListWrapper }>
-                { symbols &&
-                <FlatList
+                { symbols && <FlatList
                     data={ getFilteredList() }
                     renderItem={ renderItem }
                     keyExtractor={ item => item.id }
-                />
-                }
+                /> }
             </View>
         </View>
-    )
+    );
 };
 
 const mapStateToProps = (store) => {
@@ -79,7 +84,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getUserData: () => dispatch(getUserDataAction()),
         getSingleSymbol: (userId, symbolId) => dispatch(getSingleSymbolAction(userId, symbolId)),
-        toggleWatchlist: (accountId, symbolId, isFollowing) => dispatch(toggleWatchlistAction(accountId, symbolId, isFollowing))
+        toggleWatchlist: (accountId, symbolId, isFollowing) =>
+            dispatch(toggleWatchlistAction(accountId, symbolId, isFollowing))
     };
 };
 

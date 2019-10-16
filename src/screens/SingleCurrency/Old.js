@@ -44,18 +44,19 @@ class SingleCurrency extends PureComponent {
                 <View>
                     <Text style={ mainHeadingStyle }>$ { symbol.price.ask }</Text>
                 </View>
-            )
+            );
         }
     };
 
     aboutSection = (symbol) => {
-        if (symbol.baseInstrument && symbol.baseInstrument.description)
-            return (
+        if (symbol.baseInstrument && symbol.baseInstrument.description) {
+ return (
                 <View style={ aboutWrapper }>
                     <Text style={ aboutTitle }>ABOUT</Text>
                     <Text style={ aboutDesc }>{ symbol.baseInstrument.description }</Text>
                 </View>
-            )
+            );
+}
     };
 
     onShowMoreBtnPress = () => {
@@ -75,7 +76,7 @@ class SingleCurrency extends PureComponent {
                 <Text style={ newsTitleStyle }>{ item.title }</Text>
                 <Text style={ newsDateStyle }>{ moment(item.published).format("DD MMM YYYY") }</Text>
             </View>
-        )
+        );
     };
 
     newsSection = () => {
@@ -96,13 +97,13 @@ class SingleCurrency extends PureComponent {
                     <Text style={ showMore }>SHOW MORE</Text>
                 </TouchableOpacity> : null }
             </View>
-        )
+        );
     };
 
     renderContent = () => {
         const { singleSymbol, news } = this.props;
 
-        return [this.titleHeading(singleSymbol), this.aboutSection(singleSymbol), this.newsSection(news)]
+        return [this.titleHeading(singleSymbol), this.aboutSection(singleSymbol), this.newsSection(news)];
     };
 
     render() {
@@ -110,7 +111,7 @@ class SingleCurrency extends PureComponent {
             <ScrollView style={ container }>
                 { this.isAllDataFetched() ? this.renderContent() : null }
             </ScrollView>
-        )
+        );
     }
 }
 
