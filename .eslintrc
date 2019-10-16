@@ -1,0 +1,40 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [
+    "react",
+    "react-native"
+  ],
+  "rules": {
+    "no-unreachable": "error",
+    "no-extra-bind": "error",
+    "no-empty-pattern": "error",
+    "no-fallthrough": "error",
+    "no-multi-spaces": "error",
+    "no-unused-labels": "error",
+    "no-useless-escape": "error",
+    "no-unused-vars": "error",
+    "no-undef": "error",
+    "array-bracket-spacing": "error",
+    "spaced-comment": "warn",
+    "constructor-super": "error",
+    "no-const-assign": "error",
+    "no-duplicate-imports": "error",
+    "no-this-before-super": "error",
+    "react/jsx-uses-vars": "error",
+    "react/jsx-key": "warn",
+    "react/jsx-no-duplicate-props": "error",
+    "react/no-deprecated": "warn",
+    "react/no-direct-mutation-state": "error",
+    "react/no-string-refs": "warn",
+    "react/no-unescaped-entities": "error",
+    "react/require-render-return": "warn",
+    "react/jsx-uses-react": "error",
+    "max-len": [
+      "error",
+      120,
+      4
+    ],
+    "react/prefer-es6-class": "warn"
+  },
+  "extends": "airbnb/hooks"
+}
