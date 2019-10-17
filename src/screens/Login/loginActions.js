@@ -1,6 +1,13 @@
+// @flow
+
+/* Action types */
 import { LOGIN } from './loginActionTypes';
 
-export const tryLoginAction = loginParams => ({
+type TryLoginType = {
+    loginParams: Object
+};
+
+export const tryLoginAction = (loginParams: Object): TryLoginType => ({
     type: LOGIN.TRY_LOGIN,
     loginParams
 });

@@ -1,6 +1,18 @@
+// @flow
+
+/* Action Types */
 import { MARKET } from './marketActionTypes';
 
-const initialState = {
+type State = {
+    symbols: Array<Object> | null,
+    watchList: Array<Object> | null,
+    singleSymbol: Object,
+    chartData: null,
+    news: Array<Object>,
+    isAllNewsFetched: boolean
+};
+
+const INITIAL_STATE = {
     symbols: null,
     watchList: null,
     singleSymbol: null,
@@ -9,7 +21,7 @@ const initialState = {
     isAllNewsFetched: false
 };
 
-export default function marketReducer(state = initialState, action) {
+export default function marketReducer(state: State = INITIAL_STATE, action: Object): State {
     switch (action.type) {
         case MARKET.SET_MARKET_SYMBOLS:
             return {
@@ -46,9 +58,9 @@ export default function marketReducer(state = initialState, action) {
         case MARKET.TOGGLE_WATCHLIST_SUCCESS:
             let updatedWatchList = [];
             if (action.isFollowing) {
-                updatedWatchList = state.watchList.concat(action.toggledItem);
+                updatedWatchList = state.watchList && state.watchList.concat(action.toggledItem);
             } else {
-                updatedWatchList = state.watchList.filter(item => {
+                updatedWatchList = state.watchList && state.watchList.filter(item => {
                     return item.id !== action.toggledItem.id;
                 });
             }
