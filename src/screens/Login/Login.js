@@ -66,7 +66,7 @@ const Login = ({ errorMessage, isLoginLoading, tryLogin }: Props) => {
     };
 
     const validationMessage = (type: string) => {
-        let message;
+        let message: string;
         switch (type) {
             case 'email':
                 if (email.length === 0) {

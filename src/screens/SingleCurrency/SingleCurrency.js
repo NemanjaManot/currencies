@@ -8,7 +8,7 @@ import { getNewsAction, resetNewsAction } from '../Market/marketActions';
 /* Styles */
 import { styles } from './singleCurrencyStyle';
 
-let newsParams = {
+let newsParams: Object = {
     Offset: 0,
     Limit: 5
 };

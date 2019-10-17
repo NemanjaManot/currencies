@@ -66,6 +66,11 @@ Note: Application still not tested for iOS devices.
 $ npm run eslint
 ```
 
+#### Run Flow
+```
+$ npm run flow
+```
+
 ## Tech Stack
 
 - React Native

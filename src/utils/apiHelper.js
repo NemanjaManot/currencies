@@ -15,14 +15,14 @@ export const createQueryString = (params) => {
                 if (i > 0) {
                     queryString += '&';
                 }
-                queryString += `${encodeURIComponent(`${key}`)}=${encodeURIComponent(
+                queryString += `${ encodeURIComponent(`${ key }`) }=${ encodeURIComponent(
                     el,
-                )}`;
+                ) }`;
             });
         } else {
-            queryString += `${encodeURIComponent(key)}=${encodeURIComponent(
+            queryString += `${ encodeURIComponent(key) }=${ encodeURIComponent(
                 params[key],
-            )}`;
+            ) }`;
         }
     });
     return queryString;
@@ -40,7 +40,7 @@ axiosInstance.interceptors.request.use(
         const accessToken = await AsyncStorageService.getAccessToken();
 
         if (accessToken) {
-            request.headers.common.Authorization = `Bearer ${accessToken}`;
+            request.headers.common.Authorization = `Bearer ${ accessToken }`;
         }
 
         return request;
@@ -50,23 +50,23 @@ axiosInstance.interceptors.request.use(
 
 class ApiHelper {
     static async get(resourceUrl, params = {}, resourceId, options = {}) {
-        const id = resourceId ? `/${resourceId}` : '';
-        const url = `${BASE_URL}/${resourceUrl + id + createQueryString(params)}`;
+        const id = resourceId ? `/${ resourceId }` : '';
+        const url = `${ BASE_URL }/${ resourceUrl + id + createQueryString(params) }`;
         return axiosInstance.get(url, options);
     };
 
     static async post(resourceUrl, newResource, options = {}) {
-        const url = `${BASE_URL}/${resourceUrl}`;
+        const url = `${ BASE_URL }/${ resourceUrl }`;
         return axiosInstance.post(url, newResource, options);
     };
 
     static async put(resourceUrl, newResource, options = {}) {
-        const url = `${BASE_URL}/${resourceUrl}`;
+        const url = `${ BASE_URL }/${ resourceUrl }`;
         return axiosInstance.put(url, newResource, options);
     };
 
     static async remove(resourceUrl, resourceId) {
-        const url = `${BASE_URL}/${resourceUrl}/${resourceId || ''}`;
+        const url = `${ BASE_URL }/${ resourceUrl }/${ resourceId || '' }`;
         return axiosInstance.delete(url);
     };
 }
