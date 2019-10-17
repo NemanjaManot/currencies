@@ -28,20 +28,27 @@ export function* getWatchlist(action) {
 }
 
 export function* getSingleSymbol(action) {
-    const response = yield MarketService.getSingleSymbol(action.userId, action.symbolId);
-    if (response.data) {
+    const [responseSymbol, responseNews] = yield all([
+        MarketService.getSingleSymbol(action.userId, action.symbolId),
+        MarketService.getNews(5, 0)
+    ]);
+
+    if (responseSymbol.data && responseNews.data) {
+        const isAllNewsFetched = !responseNews.data.next;
+
         yield all([
             put({
                 type: MARKET.SET_SINGLE_SYMBOL,
-                singleSymbol: response.data
+                singleSymbol: responseSymbol.data
             }),
             put({
-                type: MARKET.GET_NEWS,
-                offset: 0
+                type: MARKET.SET_NEWS,
+                news: responseNews.data.results,
+                isAllNewsFetched
             })
         ]);
 
-        yield NavigationService.navigate('SingleSymbol', { params: response.data.displayName });
+        yield NavigationService.navigate('SingleSymbol', { params: responseSymbol.data.displayName });
     }
 }
 
