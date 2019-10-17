@@ -1,3 +1,4 @@
+// @flow
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
@@ -13,7 +14,13 @@ import { styles } from './loginStyle';
 const { container, headerTitle, inputStyle, loginButton, textInputStyle, loginErrorStyle } = styles;
 const resetScrollToCoords = { x: 0, y: 0 };
 
-const Login = ({ errorMessage, isLoginLoading, tryLogin }) => {
+type Props = {
+    errorMessage: string,
+    isLoginLoading: boolean,
+    tryLogin: Function
+};
+
+const Login = ({ errorMessage, isLoginLoading, tryLogin }: Props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [touchedEmail, setTouchedEmail] = useState(false);
@@ -33,7 +40,7 @@ const Login = ({ errorMessage, isLoginLoading, tryLogin }) => {
         }
     };
 
-    const handleBlur = field => () => {
+    const handleBlur = (field: string) => () => {
         switch (field) {
             case 'email':
                 setTouchedEmail(true);
@@ -46,10 +53,10 @@ const Login = ({ errorMessage, isLoginLoading, tryLogin }) => {
         }
     };
 
-    const showEmailValidationMsg = email => touchedEmail && (
+    const showEmailValidationMsg = (email: string) => touchedEmail && (
         !NO_SPACE_REGEX.test(email) || !EMAIL_VALIDATION_REGEX.test(email));
 
-    const showPasswordValidationMsg = password => touchedPassword && !password.length > 0;
+    const showPasswordValidationMsg = password => password && touchedPassword && !password.length > 0;
 
     const isFormValid = () => {
         const emailValidation = showEmailValidationMsg(email);
@@ -58,7 +65,7 @@ const Login = ({ errorMessage, isLoginLoading, tryLogin }) => {
         return (!emailValidation && email.length && !passwordValidation && password.length);
     };
 
-    const validationMessage = type => {
+    const validationMessage = (type: string) => {
         let message;
         switch (type) {
             case 'email':

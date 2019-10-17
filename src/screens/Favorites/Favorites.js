@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
@@ -10,10 +11,17 @@ import { styles } from './favoritesStyle';
 
 const { container, favoritesListWrapper } = styles;
 
-const Favorites = ({ getSingleSymbol, userId, toggleWatchlist, userAccount, watchList, navigation }) => {
-    const pressSymbolName = (symbolId, displayName) => {
+type Props = {
+    getSingleSymbol: Function,
+    userId: number,
+    toggleWatchlist: Function,
+    userAccount: Object,
+    watchList: Array<Object>
+};
+
+const Favorites = ({ getSingleSymbol, userId, toggleWatchlist, userAccount, watchList }: Props) => {
+    const pressSymbolName = (symbolId) => {
         getSingleSymbol(userId, symbolId);
-        navigation.navigate('SingleSymbol', { params: displayName });
     };
 
     const pressFavoriteIcon = (symbolId) => {
@@ -29,7 +37,7 @@ const Favorites = ({ getSingleSymbol, userId, toggleWatchlist, userAccount, watc
                 name={ displayName }
                 value={ ask }
                 isFavorite
-                onLabelPress={ pressSymbolName.bind(this, item.id, item.displayName) }
+                onLabelPress={ pressSymbolName.bind(this, item.id) }
                 onIconPress={ pressFavoriteIcon.bind(this, item.id) }
             />
         );

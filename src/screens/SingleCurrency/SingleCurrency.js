@@ -1,3 +1,4 @@
+// @flow
 import React, { useEffect } from 'react';
 import { View, Text, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
@@ -24,7 +25,16 @@ const {
     showMore
 } = styles;
 
-const SingleCurrency = ({ singleSymbol, news, resetNews, getNews, isAllNewsFetched }) => {
+type Props = {
+    resetNews: Function,
+    getNews: Function,
+    news: Array<Object>,
+    singleSymbol: Object,
+    getNews: Function,
+    isAllNewsFetched: boolean
+};
+
+const SingleCurrency = ({ singleSymbol, news, resetNews, getNews, isAllNewsFetched }: Props) => {
     useEffect(() => {
         return () => {
             resetNews();
@@ -36,9 +46,9 @@ const SingleCurrency = ({ singleSymbol, news, resetNews, getNews, isAllNewsFetch
     };
 
     const titleHeading = (symbol) => {
-        if (symbol.price && symbol.price.ask) {
+        if (symbol && symbol.price && symbol.price.ask) {
             return (
-                <View>
+                <View key={ symbol.id }>
                     <Text style={ mainHeadingStyle }>$ { symbol.price.ask }</Text>
                 </View>
             );
@@ -49,7 +59,7 @@ const SingleCurrency = ({ singleSymbol, news, resetNews, getNews, isAllNewsFetch
         const { baseInstrument } = symbol;
         if (baseInstrument && baseInstrument.description) {
             return (
-                <View style={ aboutWrapper }>
+                <View key={ baseInstrument.id } style={ aboutWrapper }>
                     <Text style={ aboutTitle }>ABOUT</Text>
                     <Text style={ aboutDesc }>{ baseInstrument.description }</Text>
                 </View>
@@ -66,7 +76,7 @@ const SingleCurrency = ({ singleSymbol, news, resetNews, getNews, isAllNewsFetch
         getNews(newOffset);
     };
 
-    const keyExtractor = (item, index) => index.toString();
+    const keyExtractor = item => item.id.toString();
 
     const renderItem = ({ item }) => {
         return (
@@ -77,11 +87,11 @@ const SingleCurrency = ({ singleSymbol, news, resetNews, getNews, isAllNewsFetch
         );
     };
 
-    const newsSection = () => {
+    const newsSection = (news) => {
         const INITIAL_NUM_TO_RENDER = news && news.length ? news.length : 1;
 
         return (
-            <View>
+            <View key="newsSection">
                 <Text style={ aboutTitle }>NEWS</Text>
                 <FlatList
                     data={ news }

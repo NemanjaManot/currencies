@@ -1,8 +1,9 @@
-import { takeEvery, put } from 'redux-saga/effects';
+import { takeEvery, put, all } from 'redux-saga/effects';
 /* Action types */
 import { MARKET } from './marketActionTypes';
 /* Services */
 import MarketService from '../../services/marketService';
+import NavigationService from '../../services/navigationService';
 
 export function* getSymbols(action) {
     const response = yield MarketService.getSymbols(action.userId);
@@ -29,15 +30,18 @@ export function* getWatchlist(action) {
 export function* getSingleSymbol(action) {
     const response = yield MarketService.getSingleSymbol(action.userId, action.symbolId);
     if (response.data) {
-        yield put({
-            type: MARKET.SET_SINGLE_SYMBOL,
-            singleSymbol: response.data
-        });
+        yield all([
+            put({
+                type: MARKET.SET_SINGLE_SYMBOL,
+                singleSymbol: response.data
+            }),
+            put({
+                type: MARKET.GET_NEWS,
+                offset: 0
+            })
+        ]);
 
-        yield put({
-            type: MARKET.GET_NEWS,
-            offset: 0
-        });
+        yield NavigationService.navigate('SingleSymbol', { params: response.data.displayName });
     }
 }
 
