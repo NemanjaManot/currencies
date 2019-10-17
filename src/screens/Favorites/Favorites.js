@@ -16,14 +16,12 @@ type Props = {
     userId: number,
     toggleWatchlist: Function,
     userAccount: Object,
-    watchList: Array<Object>,
-    navigation: Object
+    watchList: Array<Object>
 };
 
-const Favorites = ({ getSingleSymbol, userId, toggleWatchlist, userAccount, watchList, navigation }: Props) => {
-    const pressSymbolName = (symbolId, displayName) => {
+const Favorites = ({ getSingleSymbol, userId, toggleWatchlist, userAccount, watchList }: Props) => {
+    const pressSymbolName = (symbolId) => {
         getSingleSymbol(userId, symbolId);
-        navigation.navigate('SingleSymbol', { params: displayName });
     };
 
     const pressFavoriteIcon = (symbolId) => {
@@ -39,7 +37,7 @@ const Favorites = ({ getSingleSymbol, userId, toggleWatchlist, userAccount, watc
                 name={ displayName }
                 value={ ask }
                 isFavorite
-                onLabelPress={ pressSymbolName.bind(this, item.id, item.displayName) }
+                onLabelPress={ pressSymbolName.bind(this, item.id) }
                 onIconPress={ pressFavoriteIcon.bind(this, item.id) }
             />
         );

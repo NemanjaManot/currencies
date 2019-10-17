@@ -21,20 +21,18 @@ type Props = {
     userId: number,
     toggleWatchlist: Function,
     userAccount: Object,
-    navigation: Object,
     symbols: Array<Object>
 };
 
-const Market = ({ getUserData, getSingleSymbol, userId, navigation, toggleWatchlist, userAccount, symbols }: Props) => {
+const Market = ({ getUserData, getSingleSymbol, userId, toggleWatchlist, userAccount, symbols }: Props) => {
     const [query, setQuery] = useState('');
 
     useEffect(() => {
         getUserData();
     }, []);
 
-    const pressSymbolName = (symbolId, displayName) => {
+    const pressSymbolName = (symbolId) => {
         getSingleSymbol(userId, symbolId);
-        navigation.navigate('SingleSymbol', { params: displayName });
     };
 
     const pressFavoriteIcon = (symbolId, isFavorite) => {
@@ -50,7 +48,7 @@ const Market = ({ getUserData, getSingleSymbol, userId, navigation, toggleWatchl
                 name={ displayName }
                 value={ ask }
                 isFavorite={ isFavorite }
-                onLabelPress={ pressSymbolName.bind(this, id, displayName) }
+                onLabelPress={ pressSymbolName.bind(this, id) }
                 onIconPress={ pressFavoriteIcon.bind(this, id, isFavorite) }
             />
         );
