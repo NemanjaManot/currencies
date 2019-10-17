@@ -82,3 +82,5 @@ $ npm run flow
 - React Native Paper
 - Async Storage for RN
 - React Navigation
+- ESLint
+- Flow
